@@ -19,9 +19,15 @@ set(CMAKE_CXX_VISIBILITY_PRESET "hidden")
 set(CMAKE_C_VISIBILITY_PRESET "hidden")
 set(CMAKE_VISIBILITY_INLINES_HIDDEN "YES")
 
+option(VULKANSC "Build Vulkan SC utility libraries" OFF)
+
 # This variable enables downstream users to customize the target API
 # variant (e.g. Vulkan SC)
 set(API_TYPE "vulkan")
+
+if(VULKANSC)
+    set(API_TYPE "vulkansc")
+endif()
 
 add_subdirectory(scripts)
 
@@ -44,6 +50,14 @@ if (VUL_IS_TOP_LEVEL)
         DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/vulkan"
         PATTERN ".clang-format" EXCLUDE
     )
+    if(VULKANSC)
+        # Separately deploy shared layer settings files from the Vulkan subdirectory
+        install(
+            DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/vulkan/layer/"
+            DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/vulkan/layer"
+            PATTERN ".clang-format" EXCLUDE
+        )
+    endif(VULKANSC)
 
     set_target_properties(VulkanLayerSettings PROPERTIES EXPORT_NAME "LayerSettings")
     set_target_properties(VulkanUtilityHeaders PROPERTIES EXPORT_NAME "UtilityHeaders")

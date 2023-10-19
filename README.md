@@ -2,14 +2,14 @@
 Copyright 2023 The Khronos Group Inc.
 Copyright 2023 Valve Corporation
 Copyright 2023 LunarG, Inc.
+Copyright 2023 RasterGrid, Inc.
 
 SPDX-License-Identifier: Apache-2.0
 -->
 
-# Vulkan-Utility-Libraries
+# VulkanSC-Utility-Libraries
 
-This repo was created to share code across various Vulkan repositories, solving long standing issues for Vulkan 
-SDK developers and users.
+This repo is the Vulkan SC equivalent of the Vulkan-Utility-Libraries repository to share code across various Vulkan SC repositories.
 
 ## Historical Context
 

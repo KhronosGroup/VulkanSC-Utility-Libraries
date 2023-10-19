@@ -83,6 +83,13 @@ class APISpecific:
     def createApiVersion(targetApiName: str, name: str, number: str) -> Version:
         match targetApiName:
 
+            # Vulkan SC specific API version creation
+            case 'vulkansc':
+                nameApi = name.replace('VK_', 'VK_API_')
+                nameApi = nameApi.replace('VKSC_', 'VKSC_API_')
+                nameString = f'"{name}"'
+                return Version(name, nameString, nameApi, number)
+
             # Vulkan specific API version creation
             case 'vulkan':
                 nameApi = name.replace('VK_', 'VK_API_')

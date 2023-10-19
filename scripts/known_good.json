@@ -10,6 +10,19 @@
             "commit": "v1.3.268"
         },
         {
+            "name": "Vulkan-Headers",
+            "api": "vulkansc",
+            "url": "https://github.com/KhronosGroup/VulkanSC-Headers.git",
+            "sub_dir": "Vulkan-Headers",
+            "build_dir": "Vulkan-Headers/build",
+            "install_dir": "Vulkan-Headers/build/install",
+            "cmake_options": [
+                "-DVULKANSC=ON",
+                "-DGEN_VULKANSC_COMBINED=ON"
+            ],
+            "commit": "sc_next"
+        },
+        {
             "name": "googletest",
             "url": "https://github.com/google/googletest.git",
             "sub_dir": "googletest",
