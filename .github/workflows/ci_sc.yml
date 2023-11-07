@@ -9,6 +9,8 @@ name: ci - Vulkan SC
 
 on:
     push:
+        branches:
+            - '!main'
     pull_request:
         branches:
             - sc_main
