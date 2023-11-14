@@ -20,7 +20,7 @@
                 "-DVULKANSC=ON",
                 "-DGEN_VULKANSC_COMBINED=ON"
             ],
-            "commit": "sc_next"
+            "commit": "3ce63383494102643fad0d9c134107d29243fed6"
         },
         {
             "name": "googletest",
