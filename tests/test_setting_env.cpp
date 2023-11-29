@@ -17,7 +17,7 @@ static void SetEnv(const char* value) {
 #ifdef _WIN32
     _putenv(value);
 #else
-    putenv(const_cast<char *>(value));
+    putenv(const_cast<char*>(value));
 #endif
 }
 
@@ -439,4 +439,6 @@ TEST(test_layer_setting_env, vkuGetLayerSettingValues_String) {
     EXPECT_EQ(2, value_count);
 
     vkuDestroyLayerSettingSet(layerSettingSet, nullptr);
+
+    SetEnv("VK_LUNARG_TEST_MY_SETTING=");
 }

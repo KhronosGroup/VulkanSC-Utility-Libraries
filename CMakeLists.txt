@@ -48,7 +48,6 @@ if (VUL_IS_TOP_LEVEL)
     install(
         DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/${API_TYPE}/"
         DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/vulkan"
-        PATTERN ".clang-format" EXCLUDE
     )
     if(VULKANSC)
         # Separately deploy shared layer settings files from the Vulkan subdirectory
