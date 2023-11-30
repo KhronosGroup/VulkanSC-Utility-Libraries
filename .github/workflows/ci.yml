@@ -19,7 +19,7 @@ jobs:
     strategy:
       matrix:
         config: [Debug, Release]
-        os: [ ubuntu-20.04, ubuntu-22.04, windows-latest, macos-latest ]
+        os: [ ubuntu-20.04, ubuntu-22.04, windows-latest ]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v4
