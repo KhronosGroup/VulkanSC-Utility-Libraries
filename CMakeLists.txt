@@ -19,7 +19,7 @@ set(CMAKE_CXX_VISIBILITY_PRESET "hidden")
 set(CMAKE_C_VISIBILITY_PRESET "hidden")
 set(CMAKE_VISIBILITY_INLINES_HIDDEN "YES")
 
-option(VULKANSC "Build Vulkan SC utility libraries" OFF)
+option(VULKANSC "Build Vulkan SC utility libraries" ON)
 
 # This variable enables downstream users to customize the target API
 # variant (e.g. Vulkan SC)
