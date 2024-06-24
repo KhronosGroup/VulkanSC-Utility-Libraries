@@ -19,15 +19,7 @@ set(CMAKE_CXX_VISIBILITY_PRESET "hidden")
 set(CMAKE_C_VISIBILITY_PRESET "hidden")
 set(CMAKE_VISIBILITY_INLINES_HIDDEN "YES")
 
-option(VULKANSC "Build Vulkan SC utility libraries" ON)
-
-# This variable enables downstream users to customize the target API
-# variant (e.g. Vulkan SC)
-set(API_TYPE "vulkan")
-
-if(VULKANSC)
-    set(API_TYPE "vulkansc")
-endif()
+set(API_TYPE "vulkansc")
 
 add_subdirectory(scripts)
 
@@ -47,24 +39,17 @@ if (VUL_IS_TOP_LEVEL)
     include(CMakePackageConfigHelpers)
 
     install(
-        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/${API_TYPE}/"
+        DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/vulkan/"
         DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/vulkan"
     )
-    if(VULKANSC)
-        # Separately deploy shared layer settings files from the Vulkan subdirectory
-        install(
-            DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/include/vulkan/layer/"
-            DESTINATION "${CMAKE_INSTALL_INCLUDEDIR}/vulkan/layer"
-            PATTERN ".clang-format" EXCLUDE
-        )
-    endif(VULKANSC)
 
     # Create VulkanUtilityLibraries-targets.cmake
     set_target_properties(VulkanLayerSettings PROPERTIES EXPORT_NAME "LayerSettings")
     set_target_properties(VulkanUtilityHeaders PROPERTIES EXPORT_NAME "UtilityHeaders")
+    set_target_properties(VulkanSafeStruct PROPERTIES EXPORT_NAME "SafeStruct")
     set_target_properties(VulkanCompilerConfiguration PROPERTIES EXPORT_NAME "CompilerConfiguration")
     install(
-        TARGETS VulkanLayerSettings VulkanUtilityHeaders VulkanCompilerConfiguration
+        TARGETS VulkanLayerSettings VulkanUtilityHeaders VulkanSafeStruct VulkanCompilerConfiguration
         EXPORT VulkanUtilityLibraries-targets
         INCLUDES DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
     )

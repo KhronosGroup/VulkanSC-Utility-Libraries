@@ -104,6 +104,7 @@ typedef struct VkuInstanceDispatchTable_ {
     PFN_vkGetDisplayPlaneCapabilities2KHR GetDisplayPlaneCapabilities2KHR;
     PFN_vkGetPhysicalDeviceFragmentShadingRatesKHR GetPhysicalDeviceFragmentShadingRatesKHR;
     PFN_vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR;
+    PFN_vkGetPhysicalDeviceRefreshableObjectTypesKHR GetPhysicalDeviceRefreshableObjectTypesKHR;
     PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR GetPhysicalDeviceCooperativeMatrixPropertiesKHR;
     PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsKHR GetPhysicalDeviceCalibrateableTimeDomainsKHR;
     PFN_vkCreateDebugReportCallbackEXT CreateDebugReportCallbackEXT;
@@ -156,6 +157,11 @@ typedef struct VkuInstanceDispatchTable_ {
     PFN_vkCreateDirectFBSurfaceEXT CreateDirectFBSurfaceEXT;
     PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT GetPhysicalDeviceDirectFBPresentationSupportEXT;
 #endif  // VK_USE_PLATFORM_DIRECTFB_EXT
+#ifdef VK_USE_PLATFORM_SCI
+    PFN_vkGetPhysicalDeviceSciSyncAttributesNV GetPhysicalDeviceSciSyncAttributesNV;
+    PFN_vkGetPhysicalDeviceExternalMemorySciBufPropertiesNV GetPhysicalDeviceExternalMemorySciBufPropertiesNV;
+    PFN_vkGetPhysicalDeviceSciBufAttributesNV GetPhysicalDeviceSciBufAttributesNV;
+#endif  // VK_USE_PLATFORM_SCI
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
     PFN_vkCreateScreenSurfaceQNX CreateScreenSurfaceQNX;
     PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX GetPhysicalDeviceScreenPresentationSupportQNX;
@@ -351,6 +357,8 @@ typedef struct VkuDeviceDispatchTable_ {
     PFN_vkGetDeviceBufferMemoryRequirements GetDeviceBufferMemoryRequirements;
     PFN_vkGetDeviceImageMemoryRequirements GetDeviceImageMemoryRequirements;
     PFN_vkGetDeviceImageSparseMemoryRequirements GetDeviceImageSparseMemoryRequirements;
+    PFN_vkGetCommandPoolMemoryConsumption GetCommandPoolMemoryConsumption;
+    PFN_vkGetFaultData GetFaultData;
     PFN_vkCreateSwapchainKHR CreateSwapchainKHR;
     PFN_vkDestroySwapchainKHR DestroySwapchainKHR;
     PFN_vkGetSwapchainImagesKHR GetSwapchainImagesKHR;
@@ -439,6 +447,7 @@ typedef struct VkuDeviceDispatchTable_ {
     PFN_vkUnmapMemory2KHR UnmapMemory2KHR;
     PFN_vkGetEncodedVideoSessionParametersKHR GetEncodedVideoSessionParametersKHR;
     PFN_vkCmdEncodeVideoKHR CmdEncodeVideoKHR;
+    PFN_vkCmdRefreshObjectsKHR CmdRefreshObjectsKHR;
     PFN_vkCmdSetEvent2KHR CmdSetEvent2KHR;
     PFN_vkCmdResetEvent2KHR CmdResetEvent2KHR;
     PFN_vkCmdWaitEvents2KHR CmdWaitEvents2KHR;
@@ -645,6 +654,15 @@ typedef struct VkuDeviceDispatchTable_ {
     PFN_vkCmdBindInvocationMaskHUAWEI CmdBindInvocationMaskHUAWEI;
     PFN_vkGetMemoryRemoteAddressNV GetMemoryRemoteAddressNV;
     PFN_vkGetPipelinePropertiesEXT GetPipelinePropertiesEXT;
+#ifdef VK_USE_PLATFORM_SCI
+    PFN_vkGetFenceSciSyncFenceNV GetFenceSciSyncFenceNV;
+    PFN_vkGetFenceSciSyncObjNV GetFenceSciSyncObjNV;
+    PFN_vkImportFenceSciSyncFenceNV ImportFenceSciSyncFenceNV;
+    PFN_vkImportFenceSciSyncObjNV ImportFenceSciSyncObjNV;
+    PFN_vkGetSemaphoreSciSyncObjNV GetSemaphoreSciSyncObjNV;
+    PFN_vkImportSemaphoreSciSyncObjNV ImportSemaphoreSciSyncObjNV;
+    PFN_vkGetMemorySciBufNV GetMemorySciBufNV;
+#endif  // VK_USE_PLATFORM_SCI
     PFN_vkCmdSetPatchControlPointsEXT CmdSetPatchControlPointsEXT;
     PFN_vkCmdSetRasterizerDiscardEnableEXT CmdSetRasterizerDiscardEnableEXT;
     PFN_vkCmdSetDepthBiasEnableEXT CmdSetDepthBiasEnableEXT;
@@ -722,6 +740,10 @@ typedef struct VkuDeviceDispatchTable_ {
     PFN_vkCmdBindShadersEXT CmdBindShadersEXT;
     PFN_vkGetFramebufferTilePropertiesQCOM GetFramebufferTilePropertiesQCOM;
     PFN_vkGetDynamicRenderingTilePropertiesQCOM GetDynamicRenderingTilePropertiesQCOM;
+#ifdef VK_USE_PLATFORM_SCI
+    PFN_vkCreateSemaphoreSciSyncPoolNV CreateSemaphoreSciSyncPoolNV;
+    PFN_vkDestroySemaphoreSciSyncPoolNV DestroySemaphoreSciSyncPoolNV;
+#endif  // VK_USE_PLATFORM_SCI
     PFN_vkSetLatencySleepModeNV SetLatencySleepModeNV;
     PFN_vkLatencySleepNV LatencySleepNV;
     PFN_vkSetLatencyMarkerNV SetLatencyMarkerNV;
@@ -947,6 +969,8 @@ static inline void vkuInitDeviceDispatchTable(VkDevice device, VkuDeviceDispatch
     table->GetDeviceBufferMemoryRequirements = (PFN_vkGetDeviceBufferMemoryRequirements)gdpa(device, "vkGetDeviceBufferMemoryRequirements");
     table->GetDeviceImageMemoryRequirements = (PFN_vkGetDeviceImageMemoryRequirements)gdpa(device, "vkGetDeviceImageMemoryRequirements");
     table->GetDeviceImageSparseMemoryRequirements = (PFN_vkGetDeviceImageSparseMemoryRequirements)gdpa(device, "vkGetDeviceImageSparseMemoryRequirements");
+    table->GetCommandPoolMemoryConsumption = (PFN_vkGetCommandPoolMemoryConsumption)gdpa(device, "vkGetCommandPoolMemoryConsumption");
+    table->GetFaultData = (PFN_vkGetFaultData)gdpa(device, "vkGetFaultData");
     table->CreateSwapchainKHR = (PFN_vkCreateSwapchainKHR)gdpa(device, "vkCreateSwapchainKHR");
     table->DestroySwapchainKHR = (PFN_vkDestroySwapchainKHR)gdpa(device, "vkDestroySwapchainKHR");
     table->GetSwapchainImagesKHR = (PFN_vkGetSwapchainImagesKHR)gdpa(device, "vkGetSwapchainImagesKHR");
@@ -1035,6 +1059,7 @@ static inline void vkuInitDeviceDispatchTable(VkDevice device, VkuDeviceDispatch
     table->UnmapMemory2KHR = (PFN_vkUnmapMemory2KHR)gdpa(device, "vkUnmapMemory2KHR");
     table->GetEncodedVideoSessionParametersKHR = (PFN_vkGetEncodedVideoSessionParametersKHR)gdpa(device, "vkGetEncodedVideoSessionParametersKHR");
     table->CmdEncodeVideoKHR = (PFN_vkCmdEncodeVideoKHR)gdpa(device, "vkCmdEncodeVideoKHR");
+    table->CmdRefreshObjectsKHR = (PFN_vkCmdRefreshObjectsKHR)gdpa(device, "vkCmdRefreshObjectsKHR");
     table->CmdSetEvent2KHR = (PFN_vkCmdSetEvent2KHR)gdpa(device, "vkCmdSetEvent2KHR");
     table->CmdResetEvent2KHR = (PFN_vkCmdResetEvent2KHR)gdpa(device, "vkCmdResetEvent2KHR");
     table->CmdWaitEvents2KHR = (PFN_vkCmdWaitEvents2KHR)gdpa(device, "vkCmdWaitEvents2KHR");
@@ -1241,6 +1266,15 @@ static inline void vkuInitDeviceDispatchTable(VkDevice device, VkuDeviceDispatch
     table->CmdBindInvocationMaskHUAWEI = (PFN_vkCmdBindInvocationMaskHUAWEI)gdpa(device, "vkCmdBindInvocationMaskHUAWEI");
     table->GetMemoryRemoteAddressNV = (PFN_vkGetMemoryRemoteAddressNV)gdpa(device, "vkGetMemoryRemoteAddressNV");
     table->GetPipelinePropertiesEXT = (PFN_vkGetPipelinePropertiesEXT)gdpa(device, "vkGetPipelinePropertiesEXT");
+#ifdef VK_USE_PLATFORM_SCI
+    table->GetFenceSciSyncFenceNV = (PFN_vkGetFenceSciSyncFenceNV)gdpa(device, "vkGetFenceSciSyncFenceNV");
+    table->GetFenceSciSyncObjNV = (PFN_vkGetFenceSciSyncObjNV)gdpa(device, "vkGetFenceSciSyncObjNV");
+    table->ImportFenceSciSyncFenceNV = (PFN_vkImportFenceSciSyncFenceNV)gdpa(device, "vkImportFenceSciSyncFenceNV");
+    table->ImportFenceSciSyncObjNV = (PFN_vkImportFenceSciSyncObjNV)gdpa(device, "vkImportFenceSciSyncObjNV");
+    table->GetSemaphoreSciSyncObjNV = (PFN_vkGetSemaphoreSciSyncObjNV)gdpa(device, "vkGetSemaphoreSciSyncObjNV");
+    table->ImportSemaphoreSciSyncObjNV = (PFN_vkImportSemaphoreSciSyncObjNV)gdpa(device, "vkImportSemaphoreSciSyncObjNV");
+    table->GetMemorySciBufNV = (PFN_vkGetMemorySciBufNV)gdpa(device, "vkGetMemorySciBufNV");
+#endif  // VK_USE_PLATFORM_SCI
     table->CmdSetPatchControlPointsEXT = (PFN_vkCmdSetPatchControlPointsEXT)gdpa(device, "vkCmdSetPatchControlPointsEXT");
     table->CmdSetRasterizerDiscardEnableEXT = (PFN_vkCmdSetRasterizerDiscardEnableEXT)gdpa(device, "vkCmdSetRasterizerDiscardEnableEXT");
     table->CmdSetDepthBiasEnableEXT = (PFN_vkCmdSetDepthBiasEnableEXT)gdpa(device, "vkCmdSetDepthBiasEnableEXT");
@@ -1318,6 +1352,10 @@ static inline void vkuInitDeviceDispatchTable(VkDevice device, VkuDeviceDispatch
     table->CmdBindShadersEXT = (PFN_vkCmdBindShadersEXT)gdpa(device, "vkCmdBindShadersEXT");
     table->GetFramebufferTilePropertiesQCOM = (PFN_vkGetFramebufferTilePropertiesQCOM)gdpa(device, "vkGetFramebufferTilePropertiesQCOM");
     table->GetDynamicRenderingTilePropertiesQCOM = (PFN_vkGetDynamicRenderingTilePropertiesQCOM)gdpa(device, "vkGetDynamicRenderingTilePropertiesQCOM");
+#ifdef VK_USE_PLATFORM_SCI
+    table->CreateSemaphoreSciSyncPoolNV = (PFN_vkCreateSemaphoreSciSyncPoolNV)gdpa(device, "vkCreateSemaphoreSciSyncPoolNV");
+    table->DestroySemaphoreSciSyncPoolNV = (PFN_vkDestroySemaphoreSciSyncPoolNV)gdpa(device, "vkDestroySemaphoreSciSyncPoolNV");
+#endif  // VK_USE_PLATFORM_SCI
     table->SetLatencySleepModeNV = (PFN_vkSetLatencySleepModeNV)gdpa(device, "vkSetLatencySleepModeNV");
     table->LatencySleepNV = (PFN_vkLatencySleepNV)gdpa(device, "vkLatencySleepNV");
     table->SetLatencyMarkerNV = (PFN_vkSetLatencyMarkerNV)gdpa(device, "vkSetLatencyMarkerNV");
@@ -1437,6 +1475,7 @@ static inline void vkuInitInstanceDispatchTable(VkInstance instance, VkuInstance
     table->GetDisplayPlaneCapabilities2KHR = (PFN_vkGetDisplayPlaneCapabilities2KHR)gipa(instance, "vkGetDisplayPlaneCapabilities2KHR");
     table->GetPhysicalDeviceFragmentShadingRatesKHR = (PFN_vkGetPhysicalDeviceFragmentShadingRatesKHR)gipa(instance, "vkGetPhysicalDeviceFragmentShadingRatesKHR");
     table->GetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR = (PFN_vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR)gipa(instance, "vkGetPhysicalDeviceVideoEncodeQualityLevelPropertiesKHR");
+    table->GetPhysicalDeviceRefreshableObjectTypesKHR = (PFN_vkGetPhysicalDeviceRefreshableObjectTypesKHR)gipa(instance, "vkGetPhysicalDeviceRefreshableObjectTypesKHR");
     table->GetPhysicalDeviceCooperativeMatrixPropertiesKHR = (PFN_vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR)gipa(instance, "vkGetPhysicalDeviceCooperativeMatrixPropertiesKHR");
     table->GetPhysicalDeviceCalibrateableTimeDomainsKHR = (PFN_vkGetPhysicalDeviceCalibrateableTimeDomainsKHR)gipa(instance, "vkGetPhysicalDeviceCalibrateableTimeDomainsKHR");
     table->CreateDebugReportCallbackEXT = (PFN_vkCreateDebugReportCallbackEXT)gipa(instance, "vkCreateDebugReportCallbackEXT");
@@ -1489,6 +1528,11 @@ static inline void vkuInitInstanceDispatchTable(VkInstance instance, VkuInstance
     table->CreateDirectFBSurfaceEXT = (PFN_vkCreateDirectFBSurfaceEXT)gipa(instance, "vkCreateDirectFBSurfaceEXT");
     table->GetPhysicalDeviceDirectFBPresentationSupportEXT = (PFN_vkGetPhysicalDeviceDirectFBPresentationSupportEXT)gipa(instance, "vkGetPhysicalDeviceDirectFBPresentationSupportEXT");
 #endif  // VK_USE_PLATFORM_DIRECTFB_EXT
+#ifdef VK_USE_PLATFORM_SCI
+    table->GetPhysicalDeviceSciSyncAttributesNV = (PFN_vkGetPhysicalDeviceSciSyncAttributesNV)gipa(instance, "vkGetPhysicalDeviceSciSyncAttributesNV");
+    table->GetPhysicalDeviceExternalMemorySciBufPropertiesNV = (PFN_vkGetPhysicalDeviceExternalMemorySciBufPropertiesNV)gipa(instance, "vkGetPhysicalDeviceExternalMemorySciBufPropertiesNV");
+    table->GetPhysicalDeviceSciBufAttributesNV = (PFN_vkGetPhysicalDeviceSciBufAttributesNV)gipa(instance, "vkGetPhysicalDeviceSciBufAttributesNV");
+#endif  // VK_USE_PLATFORM_SCI
 #ifdef VK_USE_PLATFORM_SCREEN_QNX
     table->CreateScreenSurfaceQNX = (PFN_vkCreateScreenSurfaceQNX)gipa(instance, "vkCreateScreenSurfaceQNX");
     table->GetPhysicalDeviceScreenPresentationSupportQNX = (PFN_vkGetPhysicalDeviceScreenPresentationSupportQNX)gipa(instance, "vkGetPhysicalDeviceScreenPresentationSupportQNX");

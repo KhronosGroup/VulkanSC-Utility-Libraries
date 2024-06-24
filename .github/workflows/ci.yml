@@ -22,9 +22,17 @@ jobs:
         os: [ ubuntu-20.04, ubuntu-22.04, windows-latest ]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Set up Python 3.8
+        if: matrix.os != 'macos-latest'
+        uses: actions/setup-python@v5
         with:
-          python-version: '3.8'
+          python-version: '3.8'      
+      # MacOS machine can run on arm64 and it doesn't support 3.8
+      - name: Set up Python 3.10.11
+        if: matrix.os == 'macos-latest'
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10.11'
       - name: Test CMake Minimum
         if: matrix.os == 'ubuntu-20.04'
         uses: lukka/get-cmake@latest
@@ -34,6 +42,26 @@ jobs:
       - run: cmake --build build --config ${{matrix.config}} --verbose
       - run: ctest -C ${{matrix.config}} --output-on-failure
         working-directory: build/
+
+  windows-arm64:
+    runs-on: windows-latest
+    env:
+      CMAKE_GENERATOR: Ninja
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ilammy/msvc-dev-cmd@v1
+        with:
+          arch: amd64_arm64
+      - run: cmake -S. -B build -D VUL_WERROR=ON -D CMAKE_BUILD_TYPE=Debug -D UPDATE_DEPS=ON
+      - run: cmake --build build
+      - run: cmake --install build --prefix build/install
+ 
+  reuse:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: REUSE Compliance Check
+      uses: fsfe/reuse-action@v3
 
   generate_source:
     runs-on: ubuntu-22.04
