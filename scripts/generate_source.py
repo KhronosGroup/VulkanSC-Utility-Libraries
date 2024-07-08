@@ -43,7 +43,7 @@ def RunGenerators(api: str, registry: str, targetFilter: str) -> None:
     generators = {
         'vk_dispatch_table.h' : {
            'generator' : DispatchTableOutputGenerator,
-           'genCombined': True,
+           'genCombined': False,
            'directory' : f'include/vulkan/utility',
         },
         'vk_enum_string_helper.h' : {
