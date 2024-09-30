@@ -435,9 +435,21 @@ template <> inline VkStructureType GetSType<VkSubresourceLayout2KHR>() { return 
 template <> inline VkStructureType GetSType<VkPipelineCreateFlags2CreateInfoKHR>() { return VK_STRUCTURE_TYPE_PIPELINE_CREATE_FLAGS_2_CREATE_INFO_KHR; }
 template <> inline VkStructureType GetSType<VkBufferUsageFlags2CreateInfoKHR>() { return VK_STRUCTURE_TYPE_BUFFER_USAGE_FLAGS_2_CREATE_INFO_KHR; }
 template <> inline VkStructureType GetSType<VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_POSITION_FETCH_FEATURES_KHR; }
+template <> inline VkStructureType GetSType<VkPhysicalDevicePipelineBinaryFeaturesKHR>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_BINARY_FEATURES_KHR; }
+template <> inline VkStructureType GetSType<VkPhysicalDevicePipelineBinaryPropertiesKHR>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_BINARY_PROPERTIES_KHR; }
+template <> inline VkStructureType GetSType<VkDevicePipelineBinaryInternalCacheControlKHR>() { return VK_STRUCTURE_TYPE_DEVICE_PIPELINE_BINARY_INTERNAL_CACHE_CONTROL_KHR; }
+template <> inline VkStructureType GetSType<VkPipelineBinaryKeyKHR>() { return VK_STRUCTURE_TYPE_PIPELINE_BINARY_KEY_KHR; }
+template <> inline VkStructureType GetSType<VkPipelineCreateInfoKHR>() { return VK_STRUCTURE_TYPE_PIPELINE_CREATE_INFO_KHR; }
+template <> inline VkStructureType GetSType<VkPipelineBinaryCreateInfoKHR>() { return VK_STRUCTURE_TYPE_PIPELINE_BINARY_CREATE_INFO_KHR; }
+template <> inline VkStructureType GetSType<VkPipelineBinaryInfoKHR>() { return VK_STRUCTURE_TYPE_PIPELINE_BINARY_INFO_KHR; }
+template <> inline VkStructureType GetSType<VkReleaseCapturedPipelineDataInfoKHR>() { return VK_STRUCTURE_TYPE_RELEASE_CAPTURED_PIPELINE_DATA_INFO_KHR; }
+template <> inline VkStructureType GetSType<VkPipelineBinaryDataInfoKHR>() { return VK_STRUCTURE_TYPE_PIPELINE_BINARY_DATA_INFO_KHR; }
+template <> inline VkStructureType GetSType<VkPipelineBinaryHandlesInfoKHR>() { return VK_STRUCTURE_TYPE_PIPELINE_BINARY_HANDLES_INFO_KHR; }
 template <> inline VkStructureType GetSType<VkCooperativeMatrixPropertiesKHR>() { return VK_STRUCTURE_TYPE_COOPERATIVE_MATRIX_PROPERTIES_KHR; }
 template <> inline VkStructureType GetSType<VkPhysicalDeviceCooperativeMatrixFeaturesKHR>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_FEATURES_KHR; }
 template <> inline VkStructureType GetSType<VkPhysicalDeviceCooperativeMatrixPropertiesKHR>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COOPERATIVE_MATRIX_PROPERTIES_KHR; }
+template <> inline VkStructureType GetSType<VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_KHR; }
+template <> inline VkStructureType GetSType<VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_PROPERTIES_KHR; }
 template <> inline VkStructureType GetSType<VkVideoDecodeAV1ProfileInfoKHR>() { return VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_PROFILE_INFO_KHR; }
 template <> inline VkStructureType GetSType<VkVideoDecodeAV1CapabilitiesKHR>() { return VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_CAPABILITIES_KHR; }
 template <> inline VkStructureType GetSType<VkVideoDecodeAV1SessionParametersCreateInfoKHR>() { return VK_STRUCTURE_TYPE_VIDEO_DECODE_AV1_SESSION_PARAMETERS_CREATE_INFO_KHR; }
@@ -464,6 +476,12 @@ template <> inline VkStructureType GetSType<VkPushDescriptorSetInfoKHR>() { retu
 template <> inline VkStructureType GetSType<VkPushDescriptorSetWithTemplateInfoKHR>() { return VK_STRUCTURE_TYPE_PUSH_DESCRIPTOR_SET_WITH_TEMPLATE_INFO_KHR; }
 template <> inline VkStructureType GetSType<VkSetDescriptorBufferOffsetsInfoEXT>() { return VK_STRUCTURE_TYPE_SET_DESCRIPTOR_BUFFER_OFFSETS_INFO_EXT; }
 template <> inline VkStructureType GetSType<VkBindDescriptorBufferEmbeddedSamplersInfoEXT>() { return VK_STRUCTURE_TYPE_BIND_DESCRIPTOR_BUFFER_EMBEDDED_SAMPLERS_INFO_EXT; }
+template <> inline VkStructureType GetSType<VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_RELAXED_EXTENDED_INSTRUCTION_FEATURES_KHR; }
+template <> inline VkStructureType GetSType<VkPhysicalDeviceMaintenance7FeaturesKHR>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_7_FEATURES_KHR; }
+template <> inline VkStructureType GetSType<VkPhysicalDeviceMaintenance7PropertiesKHR>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_7_PROPERTIES_KHR; }
+template <> inline VkStructureType GetSType<VkPhysicalDeviceLayeredApiPropertiesKHR>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_API_PROPERTIES_KHR; }
+template <> inline VkStructureType GetSType<VkPhysicalDeviceLayeredApiPropertiesListKHR>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_API_PROPERTIES_LIST_KHR; }
+template <> inline VkStructureType GetSType<VkPhysicalDeviceLayeredApiVulkanPropertiesKHR>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_API_VULKAN_PROPERTIES_KHR; }
 template <> inline VkStructureType GetSType<VkDebugReportCallbackCreateInfoEXT>() { return VK_STRUCTURE_TYPE_DEBUG_REPORT_CALLBACK_CREATE_INFO_EXT; }
 template <> inline VkStructureType GetSType<VkPipelineRasterizationStateRasterizationOrderAMD>() { return VK_STRUCTURE_TYPE_PIPELINE_RASTERIZATION_STATE_RASTERIZATION_ORDER_AMD; }
 template <> inline VkStructureType GetSType<VkDebugMarkerObjectNameInfoEXT>() { return VK_STRUCTURE_TYPE_DEBUG_MARKER_OBJECT_NAME_INFO_EXT; }
@@ -597,7 +615,6 @@ template <> inline VkStructureType GetSType<VkPhysicalDeviceVertexAttributeDivis
 #ifdef VK_USE_PLATFORM_GGP
 template <> inline VkStructureType GetSType<VkPresentFrameTokenGGP>() { return VK_STRUCTURE_TYPE_PRESENT_FRAME_TOKEN_GGP; }
 #endif  // VK_USE_PLATFORM_GGP
-template <> inline VkStructureType GetSType<VkPhysicalDeviceComputeShaderDerivativesFeaturesNV>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_NV; }
 template <> inline VkStructureType GetSType<VkPhysicalDeviceMeshShaderFeaturesNV>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_FEATURES_NV; }
 template <> inline VkStructureType GetSType<VkPhysicalDeviceMeshShaderPropertiesNV>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MESH_SHADER_PROPERTIES_NV; }
 template <> inline VkStructureType GetSType<VkPhysicalDeviceShaderImageFootprintFeaturesNV>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_IMAGE_FOOTPRINT_FEATURES_NV; }
@@ -917,6 +934,9 @@ template <> inline VkStructureType GetSType<VkPhysicalDeviceExternalFormatResolv
 template <> inline VkStructureType GetSType<VkPhysicalDeviceExternalFormatResolvePropertiesANDROID>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_EXTERNAL_FORMAT_RESOLVE_PROPERTIES_ANDROID; }
 template <> inline VkStructureType GetSType<VkAndroidHardwareBufferFormatResolvePropertiesANDROID>() { return VK_STRUCTURE_TYPE_ANDROID_HARDWARE_BUFFER_FORMAT_RESOLVE_PROPERTIES_ANDROID; }
 #endif  // VK_USE_PLATFORM_ANDROID_KHR
+template <> inline VkStructureType GetSType<VkPhysicalDeviceAntiLagFeaturesAMD>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_ANTI_LAG_FEATURES_AMD; }
+template <> inline VkStructureType GetSType<VkAntiLagPresentationInfoAMD>() { return VK_STRUCTURE_TYPE_ANTI_LAG_PRESENTATION_INFO_AMD; }
+template <> inline VkStructureType GetSType<VkAntiLagDataAMD>() { return VK_STRUCTURE_TYPE_ANTI_LAG_DATA_AMD; }
 template <> inline VkStructureType GetSType<VkPhysicalDeviceShaderObjectFeaturesEXT>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_OBJECT_FEATURES_EXT; }
 template <> inline VkStructureType GetSType<VkPhysicalDeviceShaderObjectPropertiesEXT>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_OBJECT_PROPERTIES_EXT; }
 template <> inline VkStructureType GetSType<VkShaderCreateInfoEXT>() { return VK_STRUCTURE_TYPE_SHADER_CREATE_INFO_EXT; }
@@ -974,6 +994,7 @@ template <> inline VkStructureType GetSType<VkPhysicalDeviceExternalMemoryScreen
 template <> inline VkStructureType GetSType<VkPhysicalDeviceLayeredDriverPropertiesMSFT>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_DRIVER_PROPERTIES_MSFT; }
 template <> inline VkStructureType GetSType<VkPhysicalDeviceDescriptorPoolOverallocationFeaturesNV>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_DESCRIPTOR_POOL_OVERALLOCATION_FEATURES_NV; }
 template <> inline VkStructureType GetSType<VkPhysicalDeviceRawAccessChainsFeaturesNV>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAW_ACCESS_CHAINS_FEATURES_NV; }
+template <> inline VkStructureType GetSType<VkPhysicalDeviceCommandBufferInheritanceFeaturesNV>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMMAND_BUFFER_INHERITANCE_FEATURES_NV; }
 template <> inline VkStructureType GetSType<VkPhysicalDeviceShaderAtomicFloat16VectorFeaturesNV>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_ATOMIC_FLOAT16_VECTOR_FEATURES_NV; }
 template <> inline VkStructureType GetSType<VkPhysicalDeviceShaderReplicatedCompositesFeaturesEXT>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_REPLICATED_COMPOSITES_FEATURES_EXT; }
 template <> inline VkStructureType GetSType<VkPhysicalDeviceRayTracingValidationFeaturesNV>() { return VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_RAY_TRACING_VALIDATION_FEATURES_NV; }
@@ -1070,13 +1091,12 @@ class InitStructHelper {
         return InitStruct<T>(p_next);
     }
 };
-
+#if VK_USE_64_BIT_PTR_DEFINES == 1
 template<typename T> VkObjectType GetObjectType() {
     static_assert(sizeof(T) == 0, "GetObjectType() is being used with an unsupported Type! Is the code-gen up to date?");
     return VK_OBJECT_TYPE_UNKNOWN;
 }
 
-#if VK_USE_64_BIT_PTR_DEFINES == 1
 template<> inline VkObjectType GetObjectType<VkBuffer>() { return VK_OBJECT_TYPE_BUFFER; }
 template<> inline VkObjectType GetObjectType<VkImage>() { return VK_OBJECT_TYPE_IMAGE; }
 template<> inline VkObjectType GetObjectType<VkInstance>() { return VK_OBJECT_TYPE_INSTANCE; }
@@ -1112,6 +1132,7 @@ template<> inline VkObjectType GetObjectType<VkDisplayModeKHR>() { return VK_OBJ
 template<> inline VkObjectType GetObjectType<VkVideoSessionKHR>() { return VK_OBJECT_TYPE_VIDEO_SESSION_KHR; }
 template<> inline VkObjectType GetObjectType<VkVideoSessionParametersKHR>() { return VK_OBJECT_TYPE_VIDEO_SESSION_PARAMETERS_KHR; }
 template<> inline VkObjectType GetObjectType<VkDeferredOperationKHR>() { return VK_OBJECT_TYPE_DEFERRED_OPERATION_KHR; }
+template<> inline VkObjectType GetObjectType<VkPipelineBinaryKHR>() { return VK_OBJECT_TYPE_PIPELINE_BINARY_KHR; }
 template<> inline VkObjectType GetObjectType<VkDebugReportCallbackEXT>() { return VK_OBJECT_TYPE_DEBUG_REPORT_CALLBACK_EXT; }
 template<> inline VkObjectType GetObjectType<VkCuModuleNVX>() { return VK_OBJECT_TYPE_CU_MODULE_NVX; }
 template<> inline VkObjectType GetObjectType<VkCuFunctionNVX>() { return VK_OBJECT_TYPE_CU_FUNCTION_NVX; }
@@ -1133,7 +1154,12 @@ template<> inline VkObjectType GetObjectType<VkShaderEXT>() { return VK_OBJECT_T
 template<> inline VkObjectType GetObjectType<VkSemaphoreSciSyncPoolNV>() { return VK_OBJECT_TYPE_SEMAPHORE_SCI_SYNC_POOL_NV; }
 #endif  // VK_USE_PLATFORM_SCI
 
-#endif // VK_USE_64_BIT_PTR_DEFINES == 1
+# else // 32 bit
+template<typename T> VkObjectType GetObjectType() {
+    static_assert(sizeof(T) == 0, "GetObjectType() does not support 32 bit builds! This is a limitation of the vulkan.h headers");
+    return VK_OBJECT_TYPE_UNKNOWN;
+}
+# endif // VK_USE_64_BIT_PTR_DEFINES == 1
 } // namespace vku
 
 // NOLINTEND// clang-format on

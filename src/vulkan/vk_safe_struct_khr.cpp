@@ -12289,6 +12289,811 @@ void safe_VkPhysicalDeviceRayTracingPositionFetchFeaturesKHR::initialize(
     pNext = SafePnextCopy(copy_src->pNext);
 }
 
+safe_VkPhysicalDevicePipelineBinaryFeaturesKHR::safe_VkPhysicalDevicePipelineBinaryFeaturesKHR(
+    const VkPhysicalDevicePipelineBinaryFeaturesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), pipelineBinaries(in_struct->pipelineBinaries) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkPhysicalDevicePipelineBinaryFeaturesKHR::safe_VkPhysicalDevicePipelineBinaryFeaturesKHR()
+    : sType(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_BINARY_FEATURES_KHR), pNext(nullptr), pipelineBinaries() {}
+
+safe_VkPhysicalDevicePipelineBinaryFeaturesKHR::safe_VkPhysicalDevicePipelineBinaryFeaturesKHR(
+    const safe_VkPhysicalDevicePipelineBinaryFeaturesKHR& copy_src) {
+    sType = copy_src.sType;
+    pipelineBinaries = copy_src.pipelineBinaries;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkPhysicalDevicePipelineBinaryFeaturesKHR& safe_VkPhysicalDevicePipelineBinaryFeaturesKHR::operator=(
+    const safe_VkPhysicalDevicePipelineBinaryFeaturesKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    pipelineBinaries = copy_src.pipelineBinaries;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkPhysicalDevicePipelineBinaryFeaturesKHR::~safe_VkPhysicalDevicePipelineBinaryFeaturesKHR() { FreePnextChain(pNext); }
+
+void safe_VkPhysicalDevicePipelineBinaryFeaturesKHR::initialize(const VkPhysicalDevicePipelineBinaryFeaturesKHR* in_struct,
+                                                                [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    pipelineBinaries = in_struct->pipelineBinaries;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkPhysicalDevicePipelineBinaryFeaturesKHR::initialize(const safe_VkPhysicalDevicePipelineBinaryFeaturesKHR* copy_src,
+                                                                [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    pipelineBinaries = copy_src->pipelineBinaries;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkPhysicalDevicePipelineBinaryPropertiesKHR::safe_VkPhysicalDevicePipelineBinaryPropertiesKHR(
+    const VkPhysicalDevicePipelineBinaryPropertiesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType),
+      pipelineBinaryInternalCache(in_struct->pipelineBinaryInternalCache),
+      pipelineBinaryInternalCacheControl(in_struct->pipelineBinaryInternalCacheControl),
+      pipelineBinaryPrefersInternalCache(in_struct->pipelineBinaryPrefersInternalCache),
+      pipelineBinaryPrecompiledInternalCache(in_struct->pipelineBinaryPrecompiledInternalCache),
+      pipelineBinaryCompressedData(in_struct->pipelineBinaryCompressedData) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkPhysicalDevicePipelineBinaryPropertiesKHR::safe_VkPhysicalDevicePipelineBinaryPropertiesKHR()
+    : sType(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_PIPELINE_BINARY_PROPERTIES_KHR),
+      pNext(nullptr),
+      pipelineBinaryInternalCache(),
+      pipelineBinaryInternalCacheControl(),
+      pipelineBinaryPrefersInternalCache(),
+      pipelineBinaryPrecompiledInternalCache(),
+      pipelineBinaryCompressedData() {}
+
+safe_VkPhysicalDevicePipelineBinaryPropertiesKHR::safe_VkPhysicalDevicePipelineBinaryPropertiesKHR(
+    const safe_VkPhysicalDevicePipelineBinaryPropertiesKHR& copy_src) {
+    sType = copy_src.sType;
+    pipelineBinaryInternalCache = copy_src.pipelineBinaryInternalCache;
+    pipelineBinaryInternalCacheControl = copy_src.pipelineBinaryInternalCacheControl;
+    pipelineBinaryPrefersInternalCache = copy_src.pipelineBinaryPrefersInternalCache;
+    pipelineBinaryPrecompiledInternalCache = copy_src.pipelineBinaryPrecompiledInternalCache;
+    pipelineBinaryCompressedData = copy_src.pipelineBinaryCompressedData;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkPhysicalDevicePipelineBinaryPropertiesKHR& safe_VkPhysicalDevicePipelineBinaryPropertiesKHR::operator=(
+    const safe_VkPhysicalDevicePipelineBinaryPropertiesKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    pipelineBinaryInternalCache = copy_src.pipelineBinaryInternalCache;
+    pipelineBinaryInternalCacheControl = copy_src.pipelineBinaryInternalCacheControl;
+    pipelineBinaryPrefersInternalCache = copy_src.pipelineBinaryPrefersInternalCache;
+    pipelineBinaryPrecompiledInternalCache = copy_src.pipelineBinaryPrecompiledInternalCache;
+    pipelineBinaryCompressedData = copy_src.pipelineBinaryCompressedData;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkPhysicalDevicePipelineBinaryPropertiesKHR::~safe_VkPhysicalDevicePipelineBinaryPropertiesKHR() { FreePnextChain(pNext); }
+
+void safe_VkPhysicalDevicePipelineBinaryPropertiesKHR::initialize(const VkPhysicalDevicePipelineBinaryPropertiesKHR* in_struct,
+                                                                  [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    pipelineBinaryInternalCache = in_struct->pipelineBinaryInternalCache;
+    pipelineBinaryInternalCacheControl = in_struct->pipelineBinaryInternalCacheControl;
+    pipelineBinaryPrefersInternalCache = in_struct->pipelineBinaryPrefersInternalCache;
+    pipelineBinaryPrecompiledInternalCache = in_struct->pipelineBinaryPrecompiledInternalCache;
+    pipelineBinaryCompressedData = in_struct->pipelineBinaryCompressedData;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkPhysicalDevicePipelineBinaryPropertiesKHR::initialize(const safe_VkPhysicalDevicePipelineBinaryPropertiesKHR* copy_src,
+                                                                  [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    pipelineBinaryInternalCache = copy_src->pipelineBinaryInternalCache;
+    pipelineBinaryInternalCacheControl = copy_src->pipelineBinaryInternalCacheControl;
+    pipelineBinaryPrefersInternalCache = copy_src->pipelineBinaryPrefersInternalCache;
+    pipelineBinaryPrecompiledInternalCache = copy_src->pipelineBinaryPrecompiledInternalCache;
+    pipelineBinaryCompressedData = copy_src->pipelineBinaryCompressedData;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkDevicePipelineBinaryInternalCacheControlKHR::safe_VkDevicePipelineBinaryInternalCacheControlKHR(
+    const VkDevicePipelineBinaryInternalCacheControlKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), disableInternalCache(in_struct->disableInternalCache) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkDevicePipelineBinaryInternalCacheControlKHR::safe_VkDevicePipelineBinaryInternalCacheControlKHR()
+    : sType(VK_STRUCTURE_TYPE_DEVICE_PIPELINE_BINARY_INTERNAL_CACHE_CONTROL_KHR), pNext(nullptr), disableInternalCache() {}
+
+safe_VkDevicePipelineBinaryInternalCacheControlKHR::safe_VkDevicePipelineBinaryInternalCacheControlKHR(
+    const safe_VkDevicePipelineBinaryInternalCacheControlKHR& copy_src) {
+    sType = copy_src.sType;
+    disableInternalCache = copy_src.disableInternalCache;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkDevicePipelineBinaryInternalCacheControlKHR& safe_VkDevicePipelineBinaryInternalCacheControlKHR::operator=(
+    const safe_VkDevicePipelineBinaryInternalCacheControlKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    disableInternalCache = copy_src.disableInternalCache;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkDevicePipelineBinaryInternalCacheControlKHR::~safe_VkDevicePipelineBinaryInternalCacheControlKHR() { FreePnextChain(pNext); }
+
+void safe_VkDevicePipelineBinaryInternalCacheControlKHR::initialize(const VkDevicePipelineBinaryInternalCacheControlKHR* in_struct,
+                                                                    [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    disableInternalCache = in_struct->disableInternalCache;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkDevicePipelineBinaryInternalCacheControlKHR::initialize(
+    const safe_VkDevicePipelineBinaryInternalCacheControlKHR* copy_src, [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    disableInternalCache = copy_src->disableInternalCache;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkPipelineBinaryKeyKHR::safe_VkPipelineBinaryKeyKHR(const VkPipelineBinaryKeyKHR* in_struct,
+                                                         [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), keySize(in_struct->keySize) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+    for (uint32_t i = 0; i < VK_MAX_PIPELINE_BINARY_KEY_SIZE_KHR; ++i) {
+        key[i] = in_struct->key[i];
+    }
+}
+
+safe_VkPipelineBinaryKeyKHR::safe_VkPipelineBinaryKeyKHR()
+    : sType(VK_STRUCTURE_TYPE_PIPELINE_BINARY_KEY_KHR), pNext(nullptr), keySize() {}
+
+safe_VkPipelineBinaryKeyKHR::safe_VkPipelineBinaryKeyKHR(const safe_VkPipelineBinaryKeyKHR& copy_src) {
+    sType = copy_src.sType;
+    keySize = copy_src.keySize;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    for (uint32_t i = 0; i < VK_MAX_PIPELINE_BINARY_KEY_SIZE_KHR; ++i) {
+        key[i] = copy_src.key[i];
+    }
+}
+
+safe_VkPipelineBinaryKeyKHR& safe_VkPipelineBinaryKeyKHR::operator=(const safe_VkPipelineBinaryKeyKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    keySize = copy_src.keySize;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    for (uint32_t i = 0; i < VK_MAX_PIPELINE_BINARY_KEY_SIZE_KHR; ++i) {
+        key[i] = copy_src.key[i];
+    }
+
+    return *this;
+}
+
+safe_VkPipelineBinaryKeyKHR::~safe_VkPipelineBinaryKeyKHR() { FreePnextChain(pNext); }
+
+void safe_VkPipelineBinaryKeyKHR::initialize(const VkPipelineBinaryKeyKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    keySize = in_struct->keySize;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+
+    for (uint32_t i = 0; i < VK_MAX_PIPELINE_BINARY_KEY_SIZE_KHR; ++i) {
+        key[i] = in_struct->key[i];
+    }
+}
+
+void safe_VkPipelineBinaryKeyKHR::initialize(const safe_VkPipelineBinaryKeyKHR* copy_src,
+                                             [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    keySize = copy_src->keySize;
+    pNext = SafePnextCopy(copy_src->pNext);
+
+    for (uint32_t i = 0; i < VK_MAX_PIPELINE_BINARY_KEY_SIZE_KHR; ++i) {
+        key[i] = copy_src->key[i];
+    }
+}
+
+safe_VkPipelineBinaryDataKHR::safe_VkPipelineBinaryDataKHR(const VkPipelineBinaryDataKHR* in_struct,
+                                                           [[maybe_unused]] PNextCopyState* copy_state)
+    : dataSize(in_struct->dataSize), pData(nullptr) {
+    if (in_struct->pData != nullptr) {
+        auto temp = new std::byte[in_struct->dataSize];
+        std::memcpy(temp, in_struct->pData, in_struct->dataSize);
+        pData = temp;
+    }
+}
+
+safe_VkPipelineBinaryDataKHR::safe_VkPipelineBinaryDataKHR() : dataSize(), pData(nullptr) {}
+
+safe_VkPipelineBinaryDataKHR::safe_VkPipelineBinaryDataKHR(const safe_VkPipelineBinaryDataKHR& copy_src) {
+    dataSize = copy_src.dataSize;
+
+    if (copy_src.pData != nullptr) {
+        auto temp = new std::byte[copy_src.dataSize];
+        std::memcpy(temp, copy_src.pData, copy_src.dataSize);
+        pData = temp;
+    }
+}
+
+safe_VkPipelineBinaryDataKHR& safe_VkPipelineBinaryDataKHR::operator=(const safe_VkPipelineBinaryDataKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    if (pData != nullptr) {
+        auto temp = reinterpret_cast<const std::byte*>(pData);
+        delete[] temp;
+    }
+
+    dataSize = copy_src.dataSize;
+
+    if (copy_src.pData != nullptr) {
+        auto temp = new std::byte[copy_src.dataSize];
+        std::memcpy(temp, copy_src.pData, copy_src.dataSize);
+        pData = temp;
+    }
+
+    return *this;
+}
+
+safe_VkPipelineBinaryDataKHR::~safe_VkPipelineBinaryDataKHR() {
+    if (pData != nullptr) {
+        auto temp = reinterpret_cast<const std::byte*>(pData);
+        delete[] temp;
+    }
+}
+
+void safe_VkPipelineBinaryDataKHR::initialize(const VkPipelineBinaryDataKHR* in_struct,
+                                              [[maybe_unused]] PNextCopyState* copy_state) {
+    if (pData != nullptr) {
+        auto temp = reinterpret_cast<const std::byte*>(pData);
+        delete[] temp;
+    }
+    dataSize = in_struct->dataSize;
+
+    if (in_struct->pData != nullptr) {
+        auto temp = new std::byte[in_struct->dataSize];
+        std::memcpy(temp, in_struct->pData, in_struct->dataSize);
+        pData = temp;
+    }
+}
+
+void safe_VkPipelineBinaryDataKHR::initialize(const safe_VkPipelineBinaryDataKHR* copy_src,
+                                              [[maybe_unused]] PNextCopyState* copy_state) {
+    dataSize = copy_src->dataSize;
+
+    if (copy_src->pData != nullptr) {
+        auto temp = new std::byte[copy_src->dataSize];
+        std::memcpy(temp, copy_src->pData, copy_src->dataSize);
+        pData = temp;
+    }
+}
+
+safe_VkPipelineBinaryKeysAndDataKHR::safe_VkPipelineBinaryKeysAndDataKHR(const VkPipelineBinaryKeysAndDataKHR* in_struct,
+                                                                         [[maybe_unused]] PNextCopyState* copy_state)
+    : binaryCount(in_struct->binaryCount), pPipelineBinaryKeys(nullptr), pPipelineBinaryData(nullptr) {
+    if (binaryCount && in_struct->pPipelineBinaryKeys) {
+        pPipelineBinaryKeys = new safe_VkPipelineBinaryKeyKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaryKeys[i].initialize(&in_struct->pPipelineBinaryKeys[i]);
+        }
+    }
+    if (binaryCount && in_struct->pPipelineBinaryData) {
+        pPipelineBinaryData = new safe_VkPipelineBinaryDataKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaryData[i].initialize(&in_struct->pPipelineBinaryData[i]);
+        }
+    }
+}
+
+safe_VkPipelineBinaryKeysAndDataKHR::safe_VkPipelineBinaryKeysAndDataKHR()
+    : binaryCount(), pPipelineBinaryKeys(nullptr), pPipelineBinaryData(nullptr) {}
+
+safe_VkPipelineBinaryKeysAndDataKHR::safe_VkPipelineBinaryKeysAndDataKHR(const safe_VkPipelineBinaryKeysAndDataKHR& copy_src) {
+    binaryCount = copy_src.binaryCount;
+    pPipelineBinaryKeys = nullptr;
+    pPipelineBinaryData = nullptr;
+    if (binaryCount && copy_src.pPipelineBinaryKeys) {
+        pPipelineBinaryKeys = new safe_VkPipelineBinaryKeyKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaryKeys[i].initialize(&copy_src.pPipelineBinaryKeys[i]);
+        }
+    }
+    if (binaryCount && copy_src.pPipelineBinaryData) {
+        pPipelineBinaryData = new safe_VkPipelineBinaryDataKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaryData[i].initialize(&copy_src.pPipelineBinaryData[i]);
+        }
+    }
+}
+
+safe_VkPipelineBinaryKeysAndDataKHR& safe_VkPipelineBinaryKeysAndDataKHR::operator=(
+    const safe_VkPipelineBinaryKeysAndDataKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    if (pPipelineBinaryKeys) delete[] pPipelineBinaryKeys;
+    if (pPipelineBinaryData) delete[] pPipelineBinaryData;
+
+    binaryCount = copy_src.binaryCount;
+    pPipelineBinaryKeys = nullptr;
+    pPipelineBinaryData = nullptr;
+    if (binaryCount && copy_src.pPipelineBinaryKeys) {
+        pPipelineBinaryKeys = new safe_VkPipelineBinaryKeyKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaryKeys[i].initialize(&copy_src.pPipelineBinaryKeys[i]);
+        }
+    }
+    if (binaryCount && copy_src.pPipelineBinaryData) {
+        pPipelineBinaryData = new safe_VkPipelineBinaryDataKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaryData[i].initialize(&copy_src.pPipelineBinaryData[i]);
+        }
+    }
+
+    return *this;
+}
+
+safe_VkPipelineBinaryKeysAndDataKHR::~safe_VkPipelineBinaryKeysAndDataKHR() {
+    if (pPipelineBinaryKeys) delete[] pPipelineBinaryKeys;
+    if (pPipelineBinaryData) delete[] pPipelineBinaryData;
+}
+
+void safe_VkPipelineBinaryKeysAndDataKHR::initialize(const VkPipelineBinaryKeysAndDataKHR* in_struct,
+                                                     [[maybe_unused]] PNextCopyState* copy_state) {
+    if (pPipelineBinaryKeys) delete[] pPipelineBinaryKeys;
+    if (pPipelineBinaryData) delete[] pPipelineBinaryData;
+    binaryCount = in_struct->binaryCount;
+    pPipelineBinaryKeys = nullptr;
+    pPipelineBinaryData = nullptr;
+    if (binaryCount && in_struct->pPipelineBinaryKeys) {
+        pPipelineBinaryKeys = new safe_VkPipelineBinaryKeyKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaryKeys[i].initialize(&in_struct->pPipelineBinaryKeys[i]);
+        }
+    }
+    if (binaryCount && in_struct->pPipelineBinaryData) {
+        pPipelineBinaryData = new safe_VkPipelineBinaryDataKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaryData[i].initialize(&in_struct->pPipelineBinaryData[i]);
+        }
+    }
+}
+
+void safe_VkPipelineBinaryKeysAndDataKHR::initialize(const safe_VkPipelineBinaryKeysAndDataKHR* copy_src,
+                                                     [[maybe_unused]] PNextCopyState* copy_state) {
+    binaryCount = copy_src->binaryCount;
+    pPipelineBinaryKeys = nullptr;
+    pPipelineBinaryData = nullptr;
+    if (binaryCount && copy_src->pPipelineBinaryKeys) {
+        pPipelineBinaryKeys = new safe_VkPipelineBinaryKeyKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaryKeys[i].initialize(&copy_src->pPipelineBinaryKeys[i]);
+        }
+    }
+    if (binaryCount && copy_src->pPipelineBinaryData) {
+        pPipelineBinaryData = new safe_VkPipelineBinaryDataKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaryData[i].initialize(&copy_src->pPipelineBinaryData[i]);
+        }
+    }
+}
+
+safe_VkPipelineCreateInfoKHR::safe_VkPipelineCreateInfoKHR(const VkPipelineCreateInfoKHR* in_struct,
+                                                           [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkPipelineCreateInfoKHR::safe_VkPipelineCreateInfoKHR() : sType(VK_STRUCTURE_TYPE_PIPELINE_CREATE_INFO_KHR), pNext(nullptr) {}
+
+safe_VkPipelineCreateInfoKHR::safe_VkPipelineCreateInfoKHR(const safe_VkPipelineCreateInfoKHR& copy_src) {
+    sType = copy_src.sType;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkPipelineCreateInfoKHR& safe_VkPipelineCreateInfoKHR::operator=(const safe_VkPipelineCreateInfoKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkPipelineCreateInfoKHR::~safe_VkPipelineCreateInfoKHR() { FreePnextChain(pNext); }
+
+void safe_VkPipelineCreateInfoKHR::initialize(const VkPipelineCreateInfoKHR* in_struct,
+                                              [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkPipelineCreateInfoKHR::initialize(const safe_VkPipelineCreateInfoKHR* copy_src,
+                                              [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkPipelineBinaryCreateInfoKHR::safe_VkPipelineBinaryCreateInfoKHR(const VkPipelineBinaryCreateInfoKHR* in_struct,
+                                                                       [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), pKeysAndDataInfo(nullptr), pipeline(in_struct->pipeline), pPipelineCreateInfo(nullptr) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+    if (in_struct->pKeysAndDataInfo) pKeysAndDataInfo = new safe_VkPipelineBinaryKeysAndDataKHR(in_struct->pKeysAndDataInfo);
+    if (in_struct->pPipelineCreateInfo) pPipelineCreateInfo = new safe_VkPipelineCreateInfoKHR(in_struct->pPipelineCreateInfo);
+}
+
+safe_VkPipelineBinaryCreateInfoKHR::safe_VkPipelineBinaryCreateInfoKHR()
+    : sType(VK_STRUCTURE_TYPE_PIPELINE_BINARY_CREATE_INFO_KHR),
+      pNext(nullptr),
+      pKeysAndDataInfo(nullptr),
+      pipeline(),
+      pPipelineCreateInfo(nullptr) {}
+
+safe_VkPipelineBinaryCreateInfoKHR::safe_VkPipelineBinaryCreateInfoKHR(const safe_VkPipelineBinaryCreateInfoKHR& copy_src) {
+    sType = copy_src.sType;
+    pKeysAndDataInfo = nullptr;
+    pipeline = copy_src.pipeline;
+    pPipelineCreateInfo = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+    if (copy_src.pKeysAndDataInfo) pKeysAndDataInfo = new safe_VkPipelineBinaryKeysAndDataKHR(*copy_src.pKeysAndDataInfo);
+    if (copy_src.pPipelineCreateInfo) pPipelineCreateInfo = new safe_VkPipelineCreateInfoKHR(*copy_src.pPipelineCreateInfo);
+}
+
+safe_VkPipelineBinaryCreateInfoKHR& safe_VkPipelineBinaryCreateInfoKHR::operator=(
+    const safe_VkPipelineBinaryCreateInfoKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    if (pKeysAndDataInfo) delete pKeysAndDataInfo;
+    if (pPipelineCreateInfo) delete pPipelineCreateInfo;
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    pKeysAndDataInfo = nullptr;
+    pipeline = copy_src.pipeline;
+    pPipelineCreateInfo = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+    if (copy_src.pKeysAndDataInfo) pKeysAndDataInfo = new safe_VkPipelineBinaryKeysAndDataKHR(*copy_src.pKeysAndDataInfo);
+    if (copy_src.pPipelineCreateInfo) pPipelineCreateInfo = new safe_VkPipelineCreateInfoKHR(*copy_src.pPipelineCreateInfo);
+
+    return *this;
+}
+
+safe_VkPipelineBinaryCreateInfoKHR::~safe_VkPipelineBinaryCreateInfoKHR() {
+    if (pKeysAndDataInfo) delete pKeysAndDataInfo;
+    if (pPipelineCreateInfo) delete pPipelineCreateInfo;
+    FreePnextChain(pNext);
+}
+
+void safe_VkPipelineBinaryCreateInfoKHR::initialize(const VkPipelineBinaryCreateInfoKHR* in_struct,
+                                                    [[maybe_unused]] PNextCopyState* copy_state) {
+    if (pKeysAndDataInfo) delete pKeysAndDataInfo;
+    if (pPipelineCreateInfo) delete pPipelineCreateInfo;
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    pKeysAndDataInfo = nullptr;
+    pipeline = in_struct->pipeline;
+    pPipelineCreateInfo = nullptr;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    if (in_struct->pKeysAndDataInfo) pKeysAndDataInfo = new safe_VkPipelineBinaryKeysAndDataKHR(in_struct->pKeysAndDataInfo);
+    if (in_struct->pPipelineCreateInfo) pPipelineCreateInfo = new safe_VkPipelineCreateInfoKHR(in_struct->pPipelineCreateInfo);
+}
+
+void safe_VkPipelineBinaryCreateInfoKHR::initialize(const safe_VkPipelineBinaryCreateInfoKHR* copy_src,
+                                                    [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    pKeysAndDataInfo = nullptr;
+    pipeline = copy_src->pipeline;
+    pPipelineCreateInfo = nullptr;
+    pNext = SafePnextCopy(copy_src->pNext);
+    if (copy_src->pKeysAndDataInfo) pKeysAndDataInfo = new safe_VkPipelineBinaryKeysAndDataKHR(*copy_src->pKeysAndDataInfo);
+    if (copy_src->pPipelineCreateInfo) pPipelineCreateInfo = new safe_VkPipelineCreateInfoKHR(*copy_src->pPipelineCreateInfo);
+}
+
+safe_VkPipelineBinaryInfoKHR::safe_VkPipelineBinaryInfoKHR(const VkPipelineBinaryInfoKHR* in_struct,
+                                                           [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), binaryCount(in_struct->binaryCount), pPipelineBinaries(nullptr) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+    if (binaryCount && in_struct->pPipelineBinaries) {
+        pPipelineBinaries = new VkPipelineBinaryKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaries[i] = in_struct->pPipelineBinaries[i];
+        }
+    }
+}
+
+safe_VkPipelineBinaryInfoKHR::safe_VkPipelineBinaryInfoKHR()
+    : sType(VK_STRUCTURE_TYPE_PIPELINE_BINARY_INFO_KHR), pNext(nullptr), binaryCount(), pPipelineBinaries(nullptr) {}
+
+safe_VkPipelineBinaryInfoKHR::safe_VkPipelineBinaryInfoKHR(const safe_VkPipelineBinaryInfoKHR& copy_src) {
+    sType = copy_src.sType;
+    binaryCount = copy_src.binaryCount;
+    pPipelineBinaries = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+    if (binaryCount && copy_src.pPipelineBinaries) {
+        pPipelineBinaries = new VkPipelineBinaryKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaries[i] = copy_src.pPipelineBinaries[i];
+        }
+    }
+}
+
+safe_VkPipelineBinaryInfoKHR& safe_VkPipelineBinaryInfoKHR::operator=(const safe_VkPipelineBinaryInfoKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    if (pPipelineBinaries) delete[] pPipelineBinaries;
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    binaryCount = copy_src.binaryCount;
+    pPipelineBinaries = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+    if (binaryCount && copy_src.pPipelineBinaries) {
+        pPipelineBinaries = new VkPipelineBinaryKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaries[i] = copy_src.pPipelineBinaries[i];
+        }
+    }
+
+    return *this;
+}
+
+safe_VkPipelineBinaryInfoKHR::~safe_VkPipelineBinaryInfoKHR() {
+    if (pPipelineBinaries) delete[] pPipelineBinaries;
+    FreePnextChain(pNext);
+}
+
+void safe_VkPipelineBinaryInfoKHR::initialize(const VkPipelineBinaryInfoKHR* in_struct,
+                                              [[maybe_unused]] PNextCopyState* copy_state) {
+    if (pPipelineBinaries) delete[] pPipelineBinaries;
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    binaryCount = in_struct->binaryCount;
+    pPipelineBinaries = nullptr;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    if (binaryCount && in_struct->pPipelineBinaries) {
+        pPipelineBinaries = new VkPipelineBinaryKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaries[i] = in_struct->pPipelineBinaries[i];
+        }
+    }
+}
+
+void safe_VkPipelineBinaryInfoKHR::initialize(const safe_VkPipelineBinaryInfoKHR* copy_src,
+                                              [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    binaryCount = copy_src->binaryCount;
+    pPipelineBinaries = nullptr;
+    pNext = SafePnextCopy(copy_src->pNext);
+    if (binaryCount && copy_src->pPipelineBinaries) {
+        pPipelineBinaries = new VkPipelineBinaryKHR[binaryCount];
+        for (uint32_t i = 0; i < binaryCount; ++i) {
+            pPipelineBinaries[i] = copy_src->pPipelineBinaries[i];
+        }
+    }
+}
+
+safe_VkReleaseCapturedPipelineDataInfoKHR::safe_VkReleaseCapturedPipelineDataInfoKHR(
+    const VkReleaseCapturedPipelineDataInfoKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), pipeline(in_struct->pipeline) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkReleaseCapturedPipelineDataInfoKHR::safe_VkReleaseCapturedPipelineDataInfoKHR()
+    : sType(VK_STRUCTURE_TYPE_RELEASE_CAPTURED_PIPELINE_DATA_INFO_KHR), pNext(nullptr), pipeline() {}
+
+safe_VkReleaseCapturedPipelineDataInfoKHR::safe_VkReleaseCapturedPipelineDataInfoKHR(
+    const safe_VkReleaseCapturedPipelineDataInfoKHR& copy_src) {
+    sType = copy_src.sType;
+    pipeline = copy_src.pipeline;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkReleaseCapturedPipelineDataInfoKHR& safe_VkReleaseCapturedPipelineDataInfoKHR::operator=(
+    const safe_VkReleaseCapturedPipelineDataInfoKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    pipeline = copy_src.pipeline;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkReleaseCapturedPipelineDataInfoKHR::~safe_VkReleaseCapturedPipelineDataInfoKHR() { FreePnextChain(pNext); }
+
+void safe_VkReleaseCapturedPipelineDataInfoKHR::initialize(const VkReleaseCapturedPipelineDataInfoKHR* in_struct,
+                                                           [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    pipeline = in_struct->pipeline;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkReleaseCapturedPipelineDataInfoKHR::initialize(const safe_VkReleaseCapturedPipelineDataInfoKHR* copy_src,
+                                                           [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    pipeline = copy_src->pipeline;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkPipelineBinaryDataInfoKHR::safe_VkPipelineBinaryDataInfoKHR(const VkPipelineBinaryDataInfoKHR* in_struct,
+                                                                   [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), pipelineBinary(in_struct->pipelineBinary) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkPipelineBinaryDataInfoKHR::safe_VkPipelineBinaryDataInfoKHR()
+    : sType(VK_STRUCTURE_TYPE_PIPELINE_BINARY_DATA_INFO_KHR), pNext(nullptr), pipelineBinary() {}
+
+safe_VkPipelineBinaryDataInfoKHR::safe_VkPipelineBinaryDataInfoKHR(const safe_VkPipelineBinaryDataInfoKHR& copy_src) {
+    sType = copy_src.sType;
+    pipelineBinary = copy_src.pipelineBinary;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkPipelineBinaryDataInfoKHR& safe_VkPipelineBinaryDataInfoKHR::operator=(const safe_VkPipelineBinaryDataInfoKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    pipelineBinary = copy_src.pipelineBinary;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkPipelineBinaryDataInfoKHR::~safe_VkPipelineBinaryDataInfoKHR() { FreePnextChain(pNext); }
+
+void safe_VkPipelineBinaryDataInfoKHR::initialize(const VkPipelineBinaryDataInfoKHR* in_struct,
+                                                  [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    pipelineBinary = in_struct->pipelineBinary;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkPipelineBinaryDataInfoKHR::initialize(const safe_VkPipelineBinaryDataInfoKHR* copy_src,
+                                                  [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    pipelineBinary = copy_src->pipelineBinary;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkPipelineBinaryHandlesInfoKHR::safe_VkPipelineBinaryHandlesInfoKHR(const VkPipelineBinaryHandlesInfoKHR* in_struct,
+                                                                         [[maybe_unused]] PNextCopyState* copy_state,
+                                                                         bool copy_pnext)
+    : sType(in_struct->sType), pipelineBinaryCount(in_struct->pipelineBinaryCount), pPipelineBinaries(nullptr) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+    if (pipelineBinaryCount && in_struct->pPipelineBinaries) {
+        pPipelineBinaries = new VkPipelineBinaryKHR[pipelineBinaryCount];
+        for (uint32_t i = 0; i < pipelineBinaryCount; ++i) {
+            pPipelineBinaries[i] = in_struct->pPipelineBinaries[i];
+        }
+    }
+}
+
+safe_VkPipelineBinaryHandlesInfoKHR::safe_VkPipelineBinaryHandlesInfoKHR()
+    : sType(VK_STRUCTURE_TYPE_PIPELINE_BINARY_HANDLES_INFO_KHR),
+      pNext(nullptr),
+      pipelineBinaryCount(),
+      pPipelineBinaries(nullptr) {}
+
+safe_VkPipelineBinaryHandlesInfoKHR::safe_VkPipelineBinaryHandlesInfoKHR(const safe_VkPipelineBinaryHandlesInfoKHR& copy_src) {
+    sType = copy_src.sType;
+    pipelineBinaryCount = copy_src.pipelineBinaryCount;
+    pPipelineBinaries = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+    if (pipelineBinaryCount && copy_src.pPipelineBinaries) {
+        pPipelineBinaries = new VkPipelineBinaryKHR[pipelineBinaryCount];
+        for (uint32_t i = 0; i < pipelineBinaryCount; ++i) {
+            pPipelineBinaries[i] = copy_src.pPipelineBinaries[i];
+        }
+    }
+}
+
+safe_VkPipelineBinaryHandlesInfoKHR& safe_VkPipelineBinaryHandlesInfoKHR::operator=(
+    const safe_VkPipelineBinaryHandlesInfoKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    if (pPipelineBinaries) delete[] pPipelineBinaries;
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    pipelineBinaryCount = copy_src.pipelineBinaryCount;
+    pPipelineBinaries = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+    if (pipelineBinaryCount && copy_src.pPipelineBinaries) {
+        pPipelineBinaries = new VkPipelineBinaryKHR[pipelineBinaryCount];
+        for (uint32_t i = 0; i < pipelineBinaryCount; ++i) {
+            pPipelineBinaries[i] = copy_src.pPipelineBinaries[i];
+        }
+    }
+
+    return *this;
+}
+
+safe_VkPipelineBinaryHandlesInfoKHR::~safe_VkPipelineBinaryHandlesInfoKHR() {
+    if (pPipelineBinaries) delete[] pPipelineBinaries;
+    FreePnextChain(pNext);
+}
+
+void safe_VkPipelineBinaryHandlesInfoKHR::initialize(const VkPipelineBinaryHandlesInfoKHR* in_struct,
+                                                     [[maybe_unused]] PNextCopyState* copy_state) {
+    if (pPipelineBinaries) delete[] pPipelineBinaries;
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    pipelineBinaryCount = in_struct->pipelineBinaryCount;
+    pPipelineBinaries = nullptr;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    if (pipelineBinaryCount && in_struct->pPipelineBinaries) {
+        pPipelineBinaries = new VkPipelineBinaryKHR[pipelineBinaryCount];
+        for (uint32_t i = 0; i < pipelineBinaryCount; ++i) {
+            pPipelineBinaries[i] = in_struct->pPipelineBinaries[i];
+        }
+    }
+}
+
+void safe_VkPipelineBinaryHandlesInfoKHR::initialize(const safe_VkPipelineBinaryHandlesInfoKHR* copy_src,
+                                                     [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    pipelineBinaryCount = copy_src->pipelineBinaryCount;
+    pPipelineBinaries = nullptr;
+    pNext = SafePnextCopy(copy_src->pNext);
+    if (pipelineBinaryCount && copy_src->pPipelineBinaries) {
+        pPipelineBinaries = new VkPipelineBinaryKHR[pipelineBinaryCount];
+        for (uint32_t i = 0; i < pipelineBinaryCount; ++i) {
+            pPipelineBinaries[i] = copy_src->pPipelineBinaries[i];
+        }
+    }
+}
+
 safe_VkCooperativeMatrixPropertiesKHR::safe_VkCooperativeMatrixPropertiesKHR(const VkCooperativeMatrixPropertiesKHR* in_struct,
                                                                              [[maybe_unused]] PNextCopyState* copy_state,
                                                                              bool copy_pnext)
@@ -12495,6 +13300,119 @@ void safe_VkPhysicalDeviceCooperativeMatrixPropertiesKHR::initialize(
     const safe_VkPhysicalDeviceCooperativeMatrixPropertiesKHR* copy_src, [[maybe_unused]] PNextCopyState* copy_state) {
     sType = copy_src->sType;
     cooperativeMatrixSupportedStages = copy_src->cooperativeMatrixSupportedStages;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR::safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR(
+    const VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state,
+    bool copy_pnext)
+    : sType(in_struct->sType),
+      computeDerivativeGroupQuads(in_struct->computeDerivativeGroupQuads),
+      computeDerivativeGroupLinear(in_struct->computeDerivativeGroupLinear) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR::safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR()
+    : sType(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_FEATURES_KHR),
+      pNext(nullptr),
+      computeDerivativeGroupQuads(),
+      computeDerivativeGroupLinear() {}
+
+safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR::safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR(
+    const safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR& copy_src) {
+    sType = copy_src.sType;
+    computeDerivativeGroupQuads = copy_src.computeDerivativeGroupQuads;
+    computeDerivativeGroupLinear = copy_src.computeDerivativeGroupLinear;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR& safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR::operator=(
+    const safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    computeDerivativeGroupQuads = copy_src.computeDerivativeGroupQuads;
+    computeDerivativeGroupLinear = copy_src.computeDerivativeGroupLinear;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR::~safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR() {
+    FreePnextChain(pNext);
+}
+
+void safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR::initialize(
+    const VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    computeDerivativeGroupQuads = in_struct->computeDerivativeGroupQuads;
+    computeDerivativeGroupLinear = in_struct->computeDerivativeGroupLinear;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR::initialize(
+    const safe_VkPhysicalDeviceComputeShaderDerivativesFeaturesKHR* copy_src, [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    computeDerivativeGroupQuads = copy_src->computeDerivativeGroupQuads;
+    computeDerivativeGroupLinear = copy_src->computeDerivativeGroupLinear;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR::safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR(
+    const VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state,
+    bool copy_pnext)
+    : sType(in_struct->sType), meshAndTaskShaderDerivatives(in_struct->meshAndTaskShaderDerivatives) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR::safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR()
+    : sType(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_COMPUTE_SHADER_DERIVATIVES_PROPERTIES_KHR),
+      pNext(nullptr),
+      meshAndTaskShaderDerivatives() {}
+
+safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR::safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR(
+    const safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR& copy_src) {
+    sType = copy_src.sType;
+    meshAndTaskShaderDerivatives = copy_src.meshAndTaskShaderDerivatives;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR& safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR::operator=(
+    const safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    meshAndTaskShaderDerivatives = copy_src.meshAndTaskShaderDerivatives;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR::~safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR() {
+    FreePnextChain(pNext);
+}
+
+void safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR::initialize(
+    const VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    meshAndTaskShaderDerivatives = in_struct->meshAndTaskShaderDerivatives;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR::initialize(
+    const safe_VkPhysicalDeviceComputeShaderDerivativesPropertiesKHR* copy_src, [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    meshAndTaskShaderDerivatives = copy_src->meshAndTaskShaderDerivatives;
     pNext = SafePnextCopy(copy_src->pNext);
 }
 
@@ -14207,6 +15125,419 @@ void safe_VkPushDescriptorSetWithTemplateInfoKHR::initialize(const safe_VkPushDe
     descriptorUpdateTemplate = copy_src->descriptorUpdateTemplate;
     layout = copy_src->layout;
     set = copy_src->set;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR::safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR(
+    const VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state,
+    bool copy_pnext)
+    : sType(in_struct->sType), shaderRelaxedExtendedInstruction(in_struct->shaderRelaxedExtendedInstruction) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR::safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR()
+    : sType(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_SHADER_RELAXED_EXTENDED_INSTRUCTION_FEATURES_KHR),
+      pNext(nullptr),
+      shaderRelaxedExtendedInstruction() {}
+
+safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR::safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR(
+    const safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR& copy_src) {
+    sType = copy_src.sType;
+    shaderRelaxedExtendedInstruction = copy_src.shaderRelaxedExtendedInstruction;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR&
+safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR::operator=(
+    const safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    shaderRelaxedExtendedInstruction = copy_src.shaderRelaxedExtendedInstruction;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR::
+    ~safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR() {
+    FreePnextChain(pNext);
+}
+
+void safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR::initialize(
+    const VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    shaderRelaxedExtendedInstruction = in_struct->shaderRelaxedExtendedInstruction;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR::initialize(
+    const safe_VkPhysicalDeviceShaderRelaxedExtendedInstructionFeaturesKHR* copy_src, [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    shaderRelaxedExtendedInstruction = copy_src->shaderRelaxedExtendedInstruction;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkPhysicalDeviceMaintenance7FeaturesKHR::safe_VkPhysicalDeviceMaintenance7FeaturesKHR(
+    const VkPhysicalDeviceMaintenance7FeaturesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), maintenance7(in_struct->maintenance7) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkPhysicalDeviceMaintenance7FeaturesKHR::safe_VkPhysicalDeviceMaintenance7FeaturesKHR()
+    : sType(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_7_FEATURES_KHR), pNext(nullptr), maintenance7() {}
+
+safe_VkPhysicalDeviceMaintenance7FeaturesKHR::safe_VkPhysicalDeviceMaintenance7FeaturesKHR(
+    const safe_VkPhysicalDeviceMaintenance7FeaturesKHR& copy_src) {
+    sType = copy_src.sType;
+    maintenance7 = copy_src.maintenance7;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkPhysicalDeviceMaintenance7FeaturesKHR& safe_VkPhysicalDeviceMaintenance7FeaturesKHR::operator=(
+    const safe_VkPhysicalDeviceMaintenance7FeaturesKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    maintenance7 = copy_src.maintenance7;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkPhysicalDeviceMaintenance7FeaturesKHR::~safe_VkPhysicalDeviceMaintenance7FeaturesKHR() { FreePnextChain(pNext); }
+
+void safe_VkPhysicalDeviceMaintenance7FeaturesKHR::initialize(const VkPhysicalDeviceMaintenance7FeaturesKHR* in_struct,
+                                                              [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    maintenance7 = in_struct->maintenance7;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkPhysicalDeviceMaintenance7FeaturesKHR::initialize(const safe_VkPhysicalDeviceMaintenance7FeaturesKHR* copy_src,
+                                                              [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    maintenance7 = copy_src->maintenance7;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkPhysicalDeviceMaintenance7PropertiesKHR::safe_VkPhysicalDeviceMaintenance7PropertiesKHR(
+    const VkPhysicalDeviceMaintenance7PropertiesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType),
+      robustFragmentShadingRateAttachmentAccess(in_struct->robustFragmentShadingRateAttachmentAccess),
+      separateDepthStencilAttachmentAccess(in_struct->separateDepthStencilAttachmentAccess),
+      maxDescriptorSetTotalUniformBuffersDynamic(in_struct->maxDescriptorSetTotalUniformBuffersDynamic),
+      maxDescriptorSetTotalStorageBuffersDynamic(in_struct->maxDescriptorSetTotalStorageBuffersDynamic),
+      maxDescriptorSetTotalBuffersDynamic(in_struct->maxDescriptorSetTotalBuffersDynamic),
+      maxDescriptorSetUpdateAfterBindTotalUniformBuffersDynamic(
+          in_struct->maxDescriptorSetUpdateAfterBindTotalUniformBuffersDynamic),
+      maxDescriptorSetUpdateAfterBindTotalStorageBuffersDynamic(
+          in_struct->maxDescriptorSetUpdateAfterBindTotalStorageBuffersDynamic),
+      maxDescriptorSetUpdateAfterBindTotalBuffersDynamic(in_struct->maxDescriptorSetUpdateAfterBindTotalBuffersDynamic) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkPhysicalDeviceMaintenance7PropertiesKHR::safe_VkPhysicalDeviceMaintenance7PropertiesKHR()
+    : sType(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_MAINTENANCE_7_PROPERTIES_KHR),
+      pNext(nullptr),
+      robustFragmentShadingRateAttachmentAccess(),
+      separateDepthStencilAttachmentAccess(),
+      maxDescriptorSetTotalUniformBuffersDynamic(),
+      maxDescriptorSetTotalStorageBuffersDynamic(),
+      maxDescriptorSetTotalBuffersDynamic(),
+      maxDescriptorSetUpdateAfterBindTotalUniformBuffersDynamic(),
+      maxDescriptorSetUpdateAfterBindTotalStorageBuffersDynamic(),
+      maxDescriptorSetUpdateAfterBindTotalBuffersDynamic() {}
+
+safe_VkPhysicalDeviceMaintenance7PropertiesKHR::safe_VkPhysicalDeviceMaintenance7PropertiesKHR(
+    const safe_VkPhysicalDeviceMaintenance7PropertiesKHR& copy_src) {
+    sType = copy_src.sType;
+    robustFragmentShadingRateAttachmentAccess = copy_src.robustFragmentShadingRateAttachmentAccess;
+    separateDepthStencilAttachmentAccess = copy_src.separateDepthStencilAttachmentAccess;
+    maxDescriptorSetTotalUniformBuffersDynamic = copy_src.maxDescriptorSetTotalUniformBuffersDynamic;
+    maxDescriptorSetTotalStorageBuffersDynamic = copy_src.maxDescriptorSetTotalStorageBuffersDynamic;
+    maxDescriptorSetTotalBuffersDynamic = copy_src.maxDescriptorSetTotalBuffersDynamic;
+    maxDescriptorSetUpdateAfterBindTotalUniformBuffersDynamic = copy_src.maxDescriptorSetUpdateAfterBindTotalUniformBuffersDynamic;
+    maxDescriptorSetUpdateAfterBindTotalStorageBuffersDynamic = copy_src.maxDescriptorSetUpdateAfterBindTotalStorageBuffersDynamic;
+    maxDescriptorSetUpdateAfterBindTotalBuffersDynamic = copy_src.maxDescriptorSetUpdateAfterBindTotalBuffersDynamic;
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkPhysicalDeviceMaintenance7PropertiesKHR& safe_VkPhysicalDeviceMaintenance7PropertiesKHR::operator=(
+    const safe_VkPhysicalDeviceMaintenance7PropertiesKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    robustFragmentShadingRateAttachmentAccess = copy_src.robustFragmentShadingRateAttachmentAccess;
+    separateDepthStencilAttachmentAccess = copy_src.separateDepthStencilAttachmentAccess;
+    maxDescriptorSetTotalUniformBuffersDynamic = copy_src.maxDescriptorSetTotalUniformBuffersDynamic;
+    maxDescriptorSetTotalStorageBuffersDynamic = copy_src.maxDescriptorSetTotalStorageBuffersDynamic;
+    maxDescriptorSetTotalBuffersDynamic = copy_src.maxDescriptorSetTotalBuffersDynamic;
+    maxDescriptorSetUpdateAfterBindTotalUniformBuffersDynamic = copy_src.maxDescriptorSetUpdateAfterBindTotalUniformBuffersDynamic;
+    maxDescriptorSetUpdateAfterBindTotalStorageBuffersDynamic = copy_src.maxDescriptorSetUpdateAfterBindTotalStorageBuffersDynamic;
+    maxDescriptorSetUpdateAfterBindTotalBuffersDynamic = copy_src.maxDescriptorSetUpdateAfterBindTotalBuffersDynamic;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkPhysicalDeviceMaintenance7PropertiesKHR::~safe_VkPhysicalDeviceMaintenance7PropertiesKHR() { FreePnextChain(pNext); }
+
+void safe_VkPhysicalDeviceMaintenance7PropertiesKHR::initialize(const VkPhysicalDeviceMaintenance7PropertiesKHR* in_struct,
+                                                                [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    robustFragmentShadingRateAttachmentAccess = in_struct->robustFragmentShadingRateAttachmentAccess;
+    separateDepthStencilAttachmentAccess = in_struct->separateDepthStencilAttachmentAccess;
+    maxDescriptorSetTotalUniformBuffersDynamic = in_struct->maxDescriptorSetTotalUniformBuffersDynamic;
+    maxDescriptorSetTotalStorageBuffersDynamic = in_struct->maxDescriptorSetTotalStorageBuffersDynamic;
+    maxDescriptorSetTotalBuffersDynamic = in_struct->maxDescriptorSetTotalBuffersDynamic;
+    maxDescriptorSetUpdateAfterBindTotalUniformBuffersDynamic =
+        in_struct->maxDescriptorSetUpdateAfterBindTotalUniformBuffersDynamic;
+    maxDescriptorSetUpdateAfterBindTotalStorageBuffersDynamic =
+        in_struct->maxDescriptorSetUpdateAfterBindTotalStorageBuffersDynamic;
+    maxDescriptorSetUpdateAfterBindTotalBuffersDynamic = in_struct->maxDescriptorSetUpdateAfterBindTotalBuffersDynamic;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkPhysicalDeviceMaintenance7PropertiesKHR::initialize(const safe_VkPhysicalDeviceMaintenance7PropertiesKHR* copy_src,
+                                                                [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    robustFragmentShadingRateAttachmentAccess = copy_src->robustFragmentShadingRateAttachmentAccess;
+    separateDepthStencilAttachmentAccess = copy_src->separateDepthStencilAttachmentAccess;
+    maxDescriptorSetTotalUniformBuffersDynamic = copy_src->maxDescriptorSetTotalUniformBuffersDynamic;
+    maxDescriptorSetTotalStorageBuffersDynamic = copy_src->maxDescriptorSetTotalStorageBuffersDynamic;
+    maxDescriptorSetTotalBuffersDynamic = copy_src->maxDescriptorSetTotalBuffersDynamic;
+    maxDescriptorSetUpdateAfterBindTotalUniformBuffersDynamic = copy_src->maxDescriptorSetUpdateAfterBindTotalUniformBuffersDynamic;
+    maxDescriptorSetUpdateAfterBindTotalStorageBuffersDynamic = copy_src->maxDescriptorSetUpdateAfterBindTotalStorageBuffersDynamic;
+    maxDescriptorSetUpdateAfterBindTotalBuffersDynamic = copy_src->maxDescriptorSetUpdateAfterBindTotalBuffersDynamic;
+    pNext = SafePnextCopy(copy_src->pNext);
+}
+
+safe_VkPhysicalDeviceLayeredApiPropertiesKHR::safe_VkPhysicalDeviceLayeredApiPropertiesKHR(
+    const VkPhysicalDeviceLayeredApiPropertiesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), vendorID(in_struct->vendorID), deviceID(in_struct->deviceID), layeredAPI(in_struct->layeredAPI) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+    for (uint32_t i = 0; i < VK_MAX_PHYSICAL_DEVICE_NAME_SIZE; ++i) {
+        deviceName[i] = in_struct->deviceName[i];
+    }
+}
+
+safe_VkPhysicalDeviceLayeredApiPropertiesKHR::safe_VkPhysicalDeviceLayeredApiPropertiesKHR()
+    : sType(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_API_PROPERTIES_KHR), pNext(nullptr), vendorID(), deviceID(), layeredAPI() {}
+
+safe_VkPhysicalDeviceLayeredApiPropertiesKHR::safe_VkPhysicalDeviceLayeredApiPropertiesKHR(
+    const safe_VkPhysicalDeviceLayeredApiPropertiesKHR& copy_src) {
+    sType = copy_src.sType;
+    vendorID = copy_src.vendorID;
+    deviceID = copy_src.deviceID;
+    layeredAPI = copy_src.layeredAPI;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    for (uint32_t i = 0; i < VK_MAX_PHYSICAL_DEVICE_NAME_SIZE; ++i) {
+        deviceName[i] = copy_src.deviceName[i];
+    }
+}
+
+safe_VkPhysicalDeviceLayeredApiPropertiesKHR& safe_VkPhysicalDeviceLayeredApiPropertiesKHR::operator=(
+    const safe_VkPhysicalDeviceLayeredApiPropertiesKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    vendorID = copy_src.vendorID;
+    deviceID = copy_src.deviceID;
+    layeredAPI = copy_src.layeredAPI;
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    for (uint32_t i = 0; i < VK_MAX_PHYSICAL_DEVICE_NAME_SIZE; ++i) {
+        deviceName[i] = copy_src.deviceName[i];
+    }
+
+    return *this;
+}
+
+safe_VkPhysicalDeviceLayeredApiPropertiesKHR::~safe_VkPhysicalDeviceLayeredApiPropertiesKHR() { FreePnextChain(pNext); }
+
+void safe_VkPhysicalDeviceLayeredApiPropertiesKHR::initialize(const VkPhysicalDeviceLayeredApiPropertiesKHR* in_struct,
+                                                              [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    vendorID = in_struct->vendorID;
+    deviceID = in_struct->deviceID;
+    layeredAPI = in_struct->layeredAPI;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+
+    for (uint32_t i = 0; i < VK_MAX_PHYSICAL_DEVICE_NAME_SIZE; ++i) {
+        deviceName[i] = in_struct->deviceName[i];
+    }
+}
+
+void safe_VkPhysicalDeviceLayeredApiPropertiesKHR::initialize(const safe_VkPhysicalDeviceLayeredApiPropertiesKHR* copy_src,
+                                                              [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    vendorID = copy_src->vendorID;
+    deviceID = copy_src->deviceID;
+    layeredAPI = copy_src->layeredAPI;
+    pNext = SafePnextCopy(copy_src->pNext);
+
+    for (uint32_t i = 0; i < VK_MAX_PHYSICAL_DEVICE_NAME_SIZE; ++i) {
+        deviceName[i] = copy_src->deviceName[i];
+    }
+}
+
+safe_VkPhysicalDeviceLayeredApiPropertiesListKHR::safe_VkPhysicalDeviceLayeredApiPropertiesListKHR(
+    const VkPhysicalDeviceLayeredApiPropertiesListKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), layeredApiCount(in_struct->layeredApiCount), pLayeredApis(nullptr) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+    if (layeredApiCount && in_struct->pLayeredApis) {
+        pLayeredApis = new safe_VkPhysicalDeviceLayeredApiPropertiesKHR[layeredApiCount];
+        for (uint32_t i = 0; i < layeredApiCount; ++i) {
+            pLayeredApis[i].initialize(&in_struct->pLayeredApis[i]);
+        }
+    }
+}
+
+safe_VkPhysicalDeviceLayeredApiPropertiesListKHR::safe_VkPhysicalDeviceLayeredApiPropertiesListKHR()
+    : sType(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_API_PROPERTIES_LIST_KHR),
+      pNext(nullptr),
+      layeredApiCount(),
+      pLayeredApis(nullptr) {}
+
+safe_VkPhysicalDeviceLayeredApiPropertiesListKHR::safe_VkPhysicalDeviceLayeredApiPropertiesListKHR(
+    const safe_VkPhysicalDeviceLayeredApiPropertiesListKHR& copy_src) {
+    sType = copy_src.sType;
+    layeredApiCount = copy_src.layeredApiCount;
+    pLayeredApis = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+    if (layeredApiCount && copy_src.pLayeredApis) {
+        pLayeredApis = new safe_VkPhysicalDeviceLayeredApiPropertiesKHR[layeredApiCount];
+        for (uint32_t i = 0; i < layeredApiCount; ++i) {
+            pLayeredApis[i].initialize(&copy_src.pLayeredApis[i]);
+        }
+    }
+}
+
+safe_VkPhysicalDeviceLayeredApiPropertiesListKHR& safe_VkPhysicalDeviceLayeredApiPropertiesListKHR::operator=(
+    const safe_VkPhysicalDeviceLayeredApiPropertiesListKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    if (pLayeredApis) delete[] pLayeredApis;
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    layeredApiCount = copy_src.layeredApiCount;
+    pLayeredApis = nullptr;
+    pNext = SafePnextCopy(copy_src.pNext);
+    if (layeredApiCount && copy_src.pLayeredApis) {
+        pLayeredApis = new safe_VkPhysicalDeviceLayeredApiPropertiesKHR[layeredApiCount];
+        for (uint32_t i = 0; i < layeredApiCount; ++i) {
+            pLayeredApis[i].initialize(&copy_src.pLayeredApis[i]);
+        }
+    }
+
+    return *this;
+}
+
+safe_VkPhysicalDeviceLayeredApiPropertiesListKHR::~safe_VkPhysicalDeviceLayeredApiPropertiesListKHR() {
+    if (pLayeredApis) delete[] pLayeredApis;
+    FreePnextChain(pNext);
+}
+
+void safe_VkPhysicalDeviceLayeredApiPropertiesListKHR::initialize(const VkPhysicalDeviceLayeredApiPropertiesListKHR* in_struct,
+                                                                  [[maybe_unused]] PNextCopyState* copy_state) {
+    if (pLayeredApis) delete[] pLayeredApis;
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    layeredApiCount = in_struct->layeredApiCount;
+    pLayeredApis = nullptr;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    if (layeredApiCount && in_struct->pLayeredApis) {
+        pLayeredApis = new safe_VkPhysicalDeviceLayeredApiPropertiesKHR[layeredApiCount];
+        for (uint32_t i = 0; i < layeredApiCount; ++i) {
+            pLayeredApis[i].initialize(&in_struct->pLayeredApis[i]);
+        }
+    }
+}
+
+void safe_VkPhysicalDeviceLayeredApiPropertiesListKHR::initialize(const safe_VkPhysicalDeviceLayeredApiPropertiesListKHR* copy_src,
+                                                                  [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    layeredApiCount = copy_src->layeredApiCount;
+    pLayeredApis = nullptr;
+    pNext = SafePnextCopy(copy_src->pNext);
+    if (layeredApiCount && copy_src->pLayeredApis) {
+        pLayeredApis = new safe_VkPhysicalDeviceLayeredApiPropertiesKHR[layeredApiCount];
+        for (uint32_t i = 0; i < layeredApiCount; ++i) {
+            pLayeredApis[i].initialize(&copy_src->pLayeredApis[i]);
+        }
+    }
+}
+
+safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR::safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR(
+    const VkPhysicalDeviceLayeredApiVulkanPropertiesKHR* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType), properties(&in_struct->properties) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+}
+
+safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR::safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR()
+    : sType(VK_STRUCTURE_TYPE_PHYSICAL_DEVICE_LAYERED_API_VULKAN_PROPERTIES_KHR), pNext(nullptr) {}
+
+safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR::safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR(
+    const safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR& copy_src) {
+    sType = copy_src.sType;
+    properties.initialize(&copy_src.properties);
+    pNext = SafePnextCopy(copy_src.pNext);
+}
+
+safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR& safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR::operator=(
+    const safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    properties.initialize(&copy_src.properties);
+    pNext = SafePnextCopy(copy_src.pNext);
+
+    return *this;
+}
+
+safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR::~safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR() { FreePnextChain(pNext); }
+
+void safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR::initialize(const VkPhysicalDeviceLayeredApiVulkanPropertiesKHR* in_struct,
+                                                                    [[maybe_unused]] PNextCopyState* copy_state) {
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    properties.initialize(&in_struct->properties);
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+}
+
+void safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR::initialize(
+    const safe_VkPhysicalDeviceLayeredApiVulkanPropertiesKHR* copy_src, [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    properties.initialize(&copy_src->properties);
     pNext = SafePnextCopy(copy_src->pNext);
 }
 

@@ -470,6 +470,11 @@ typedef struct VkuDeviceDispatchTable_ {
     PFN_vkGetRenderingAreaGranularityKHR GetRenderingAreaGranularityKHR;
     PFN_vkGetDeviceImageSubresourceLayoutKHR GetDeviceImageSubresourceLayoutKHR;
     PFN_vkGetImageSubresourceLayout2KHR GetImageSubresourceLayout2KHR;
+    PFN_vkCreatePipelineBinariesKHR CreatePipelineBinariesKHR;
+    PFN_vkDestroyPipelineBinaryKHR DestroyPipelineBinaryKHR;
+    PFN_vkGetPipelineKeyKHR GetPipelineKeyKHR;
+    PFN_vkGetPipelineBinaryDataKHR GetPipelineBinaryDataKHR;
+    PFN_vkReleaseCapturedPipelineDataKHR ReleaseCapturedPipelineDataKHR;
     PFN_vkCmdSetLineStippleKHR CmdSetLineStippleKHR;
     PFN_vkGetCalibratedTimestampsKHR GetCalibratedTimestampsKHR;
     PFN_vkCmdBindDescriptorSets2KHR CmdBindDescriptorSets2KHR;
@@ -734,6 +739,7 @@ typedef struct VkuDeviceDispatchTable_ {
     PFN_vkDestroyOpticalFlowSessionNV DestroyOpticalFlowSessionNV;
     PFN_vkBindOpticalFlowSessionImageNV BindOpticalFlowSessionImageNV;
     PFN_vkCmdOpticalFlowExecuteNV CmdOpticalFlowExecuteNV;
+    PFN_vkAntiLagUpdateAMD AntiLagUpdateAMD;
     PFN_vkCreateShadersEXT CreateShadersEXT;
     PFN_vkDestroyShaderEXT DestroyShaderEXT;
     PFN_vkGetShaderBinaryDataEXT GetShaderBinaryDataEXT;
@@ -1082,6 +1088,11 @@ static inline void vkuInitDeviceDispatchTable(VkDevice device, VkuDeviceDispatch
     table->GetRenderingAreaGranularityKHR = (PFN_vkGetRenderingAreaGranularityKHR)gdpa(device, "vkGetRenderingAreaGranularityKHR");
     table->GetDeviceImageSubresourceLayoutKHR = (PFN_vkGetDeviceImageSubresourceLayoutKHR)gdpa(device, "vkGetDeviceImageSubresourceLayoutKHR");
     table->GetImageSubresourceLayout2KHR = (PFN_vkGetImageSubresourceLayout2KHR)gdpa(device, "vkGetImageSubresourceLayout2KHR");
+    table->CreatePipelineBinariesKHR = (PFN_vkCreatePipelineBinariesKHR)gdpa(device, "vkCreatePipelineBinariesKHR");
+    table->DestroyPipelineBinaryKHR = (PFN_vkDestroyPipelineBinaryKHR)gdpa(device, "vkDestroyPipelineBinaryKHR");
+    table->GetPipelineKeyKHR = (PFN_vkGetPipelineKeyKHR)gdpa(device, "vkGetPipelineKeyKHR");
+    table->GetPipelineBinaryDataKHR = (PFN_vkGetPipelineBinaryDataKHR)gdpa(device, "vkGetPipelineBinaryDataKHR");
+    table->ReleaseCapturedPipelineDataKHR = (PFN_vkReleaseCapturedPipelineDataKHR)gdpa(device, "vkReleaseCapturedPipelineDataKHR");
     table->CmdSetLineStippleKHR = (PFN_vkCmdSetLineStippleKHR)gdpa(device, "vkCmdSetLineStippleKHR");
     table->GetCalibratedTimestampsKHR = (PFN_vkGetCalibratedTimestampsKHR)gdpa(device, "vkGetCalibratedTimestampsKHR");
     table->CmdBindDescriptorSets2KHR = (PFN_vkCmdBindDescriptorSets2KHR)gdpa(device, "vkCmdBindDescriptorSets2KHR");
@@ -1346,6 +1357,7 @@ static inline void vkuInitDeviceDispatchTable(VkDevice device, VkuDeviceDispatch
     table->DestroyOpticalFlowSessionNV = (PFN_vkDestroyOpticalFlowSessionNV)gdpa(device, "vkDestroyOpticalFlowSessionNV");
     table->BindOpticalFlowSessionImageNV = (PFN_vkBindOpticalFlowSessionImageNV)gdpa(device, "vkBindOpticalFlowSessionImageNV");
     table->CmdOpticalFlowExecuteNV = (PFN_vkCmdOpticalFlowExecuteNV)gdpa(device, "vkCmdOpticalFlowExecuteNV");
+    table->AntiLagUpdateAMD = (PFN_vkAntiLagUpdateAMD)gdpa(device, "vkAntiLagUpdateAMD");
     table->CreateShadersEXT = (PFN_vkCreateShadersEXT)gdpa(device, "vkCreateShadersEXT");
     table->DestroyShaderEXT = (PFN_vkDestroyShaderEXT)gdpa(device, "vkDestroyShaderEXT");
     table->GetShaderBinaryDataEXT = (PFN_vkGetShaderBinaryDataEXT)gdpa(device, "vkGetShaderBinaryDataEXT");
