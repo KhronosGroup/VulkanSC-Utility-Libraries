@@ -41,8 +41,6 @@ class SafeStructOutputGenerator(BaseGenerator):
             'VkMicromapBuildInfoEXT',
             'VkAccelerationStructureTrianglesOpacityMicromapEXT',
             'VkAccelerationStructureTrianglesDisplacementMicromapNV',
-            # The VkDescriptorType field needs to handle every type which is something best done manually
-            'VkDescriptorDataEXT',
              # Special case because its pointers may be non-null but ignored
             'VkGraphicsPipelineCreateInfo',
             # Special case because it has custom construct parameters
@@ -61,6 +59,8 @@ class SafeStructOutputGenerator(BaseGenerator):
         # These 'data' union are decided by the 'type' in the same parent struct
         self.union_of_pointers = [
             'VkDescriptorDataEXT',
+            'VkIndirectCommandsTokenDataEXT',
+            'VkIndirectExecutionSetInfoEXT',
         ]
         self.union_of_pointer_callers = [
             'VkDescriptorGetInfoEXT',
@@ -107,6 +107,9 @@ class SafeStructOutputGenerator(BaseGenerator):
         for member in struct.members:
             if member.pointer:
                 return True
+        # The VK_EXT_sample_locations design created edge case, easiest to handle here
+        if struct.name == 'VkAttachmentSampleLocationsEXT' or struct.name == 'VkSubpassSampleLocationsEXT':
+            return True
         return False
 
     def containsObjectHandle(self, member: Member) -> bool:
@@ -170,7 +173,7 @@ class SafeStructOutputGenerator(BaseGenerator):
             #include <vulkan/utility/vk_safe_struct_utils.hpp>
 
             namespace vku {
-            
+
             // Mapping of unknown stype codes to structure lengths. This should be set up by the application
             // before vkCreateInstance() and not modified afterwards.
             std::vector<std::pair<uint32_t, uint32_t>>& GetCustomStypeInfo();
