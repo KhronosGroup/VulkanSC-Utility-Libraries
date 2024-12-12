@@ -15,8 +15,6 @@ on:
 
 jobs:
   build_and_test:
-    # Use chromium as a test build, so don't run this job unless something simple works first
-    needs: chromium
     runs-on: ${{matrix.os}}
     strategy:
       matrix:
@@ -46,8 +44,6 @@ jobs:
         working-directory: build/
 
   windows-arm64:
-    # Use chromium as a test build, so don't run this job unless something simple works first
-    needs: chromium
     runs-on: windows-latest
     env:
       CMAKE_GENERATOR: Ninja
