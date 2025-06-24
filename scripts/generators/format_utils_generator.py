@@ -7,6 +7,7 @@
 # SPDX-License-Identifier: Apache-2.0
 
 import os
+from collections import namedtuple
 from vulkan_object import (Format)
 from base_generator import BaseGenerator
 
@@ -25,7 +26,13 @@ def formatHasEqualBitsize(format: Format, bitsize: str) -> bool:
 
 # True if all components are same numericFormat
 def formatHasNumericFormat(format: Format, numericFormat: str) -> bool:
-    return all(x.numericFormat == numericFormat for x in format.components)
+    if numericFormat == 'SRGB':
+        # For SRGB, the Alpha will be UNORM, but it is still considered an SRGB format
+        if format.name == 'VK_FORMAT_A8_UNORM':
+            return False
+        return all(x.type == 'A' or x.numericFormat == numericFormat for x in format.components)
+    else:
+        return all(x.numericFormat == numericFormat for x in format.components)
 
 class FormatUtilsOutputGenerator(BaseGenerator):
     def __init__(self):
@@ -229,24 +236,6 @@ inline uint32_t vkuFormatTexelsPerBlock(VkFormat format);
 // When dealing with mulit-planar formats, need to consider using vkuGetPlaneIndex.
 inline uint32_t vkuFormatTexelBlockSize(VkFormat format);
 
-// Return size, in bytes, of one element of a VkFormat
-// Format must not be a depth, stencil, or multiplane format
-// Deprecated - Use vkuFormatTexelBlockSize - there is no "element" size in the spec
-inline uint32_t vkuFormatElementSize(VkFormat format);
-
-// Return the size in bytes of one texel of a VkFormat
-// For compressed or multi-plane, this may be a fractional number
-// Deprecated - Use vkuFormatTexelBlockSize - there is no "element" size in the spec
-inline uint32_t vkuFormatElementSizeWithAspect(VkFormat format, VkImageAspectFlagBits aspectMask);
-
-// Return the size in bytes of one texel of a VkFormat
-// Format must not be a depth, stencil, or multiplane format
-inline double vkuFormatTexelSize(VkFormat format);
-
-// Return the size in bytes of one texel of a VkFormat
-// For compressed or multi-plane, this may be a fractional number
-inline double vkuFormatTexelSizeWithAspect(VkFormat format, VkImageAspectFlagBits aspectMask);
-
 ''')
         for bits in ['8', '16', '32', '64']:
             out.append(f'// Returns whether a VkFormat contains only {bits}-bit sized components\n')
@@ -292,7 +281,7 @@ enum VKU_FORMAT_COMPONENT_TYPE {
 };
 
 // Compressed formats don't have a defined component size
-const uint32_t VKU_FORMAT_COMPRESSED_COMPONENT = 0xFFFFFFFF;
+#define VKU_FORMAT_COMPRESSED_COMPONENT 0xFFFFFFFF
 
 struct VKU_FORMAT_COMPONENT_INFO {
     enum VKU_FORMAT_COMPONENT_TYPE type;
@@ -309,27 +298,57 @@ struct VKU_FORMAT_INFO {
     struct VKU_FORMAT_COMPONENT_INFO components[VKU_FORMAT_MAX_COMPONENTS];
 };
 ''')
-        out.append('inline const struct VKU_FORMAT_INFO vkuGetFormatInfo(VkFormat format) {\n')
-        out.append('    switch (format) {\n')
-        for f in self.vk.formats.values():
+        formats_in_order = {}
+        # Manually add in the entry for VK_FORMAT_UNDEFINED because it is missing from the self.vk.formats dict
+        formats_in_order[0] = Format('VK_FORMAT_UNDEFINED', 'NONE', 0,0, ['0','0','0'], None, None, None, [], [], None)
+        for e in self.vk.enums['VkFormat'].fields:
+            if e.name != 'VK_FORMAT_UNDEFINED':
+                formats_in_order[e.value] = self.vk.formats[e.name]
+        # Number of VkFormats should equal the fields of the VkFormat enum
+        assert(len(formats_in_order) == len(self.vk.enums['VkFormat'].fields))
+        formats_in_order = dict(sorted(formats_in_order.items()))
+
+        out.append(f'const struct VKU_FORMAT_INFO vku_formats[{len(self.vk.formats) + 1}] = {{\n')
+        for f in formats_in_order.values():
             className = getClassName(f.className)
             blockExtent = ', '.join(f.blockExtent) if f.blockExtent is not None else '1, 1, 1'
-            out.extend(f'        case {f.name}: {{\n')
-            out.extend(f'            struct VKU_FORMAT_INFO out = {{VKU_FORMAT_COMPATIBILITY_CLASS_{className}, {f.blockSize}, {f.texelsPerBlock}, {{{blockExtent}}}, {len(f.components)}, {{')
+            out.extend(f'    {{ VKU_FORMAT_COMPATIBILITY_CLASS_{className}, {f.blockSize}, {f.texelsPerBlock}, {{{blockExtent}}}, {len(f.components)}, {{')
             for index, component in enumerate(f.components):
                 bits = 'VKU_FORMAT_COMPRESSED_COMPONENT' if component.bits == 'compressed' else component.bits
                 out.append(f'{{VKU_FORMAT_COMPONENT_TYPE_{component.type}, {bits}}}')
                 if index + 1 != len(f.components):
                     out.append(', ')
-            out.append('}};\n')
-            out.append('            return out; }\n')
-        out.append('''
-        default: {
-            // return values for VK_FORMAT_UNDEFINED
-            struct VKU_FORMAT_INFO out = { VKU_FORMAT_COMPATIBILITY_CLASS_NONE, 0, 0, {0, 0, 0}, 0, {{VKU_FORMAT_COMPONENT_TYPE_NONE, 0}, {VKU_FORMAT_COMPONENT_TYPE_NONE, 0}, {VKU_FORMAT_COMPONENT_TYPE_NONE, 0}, {VKU_FORMAT_COMPONENT_TYPE_NONE, 0}} };
-            return out;
-        }
-    };
+            out.append('} },\n')
+        out.append('};\n')
+
+        # Find the "format groups", eg formats whose value are consecutive, as that is the way they are written into the 'formats' array.
+        # Value refers to the enum value. These are discontinuous.
+        # Index refers to the index of a format in the vku_formats array. These are from 0 to the len(formats_in_order).
+        format_values = list(formats_in_order.keys())
+        FormatGroup = namedtuple('FormatGroup', ['begin_format', 'end_format','array_index'])
+        format_groups = []
+        index = 0
+        while index < len(format_values):
+            start_value = format_values[index]
+            end_value = format_values[-1] # use last format as sentinel so the last group can get the right end value
+            previous_value = start_value - 1
+            # Find the end value for the current group
+            for format_value in format_values[index:]:
+                if previous_value + 1 != format_value:
+                    end_value = previous_value
+                    break
+                previous_value = format_value
+            format_groups.append(FormatGroup(formats_in_order[start_value].name, formats_in_order[end_value].name, index))
+            index += (end_value - start_value) + 1
+
+        out.append('inline const struct VKU_FORMAT_INFO vkuGetFormatInfo(VkFormat format) {\n')
+        for group in format_groups:
+            out.append(f'    {"else " if group.array_index != 0 else ""}if ({group.begin_format} <= format && format <= {group.end_format} )')
+            out.append(f' {{ return vku_formats[format - {group.begin_format} + {group.array_index}]; }}\n')
+        out.append('''    // Default case - return VK_FORMAT_UNDEFINED
+    else {
+        return vku_formats[0];
+    }
 }
 
 struct VKU_FORMAT_PER_PLANE_COMPATIBILITY {
@@ -605,41 +624,6 @@ inline enum VKU_FORMAT_COMPATIBILITY_CLASS vkuFormatCompatibilityClass(VkFormat 
 inline uint32_t vkuFormatTexelsPerBlock(VkFormat format) { return vkuGetFormatInfo(format).texels_per_block; }
 
 inline uint32_t vkuFormatTexelBlockSize(VkFormat format) { return vkuGetFormatInfo(format).texel_block_size; }
-
-// Deprecated - Use vkuFormatTexelBlockSize
-inline uint32_t vkuFormatElementSize(VkFormat format) {
-    return vkuFormatElementSizeWithAspect(format, VK_IMAGE_ASPECT_COLOR_BIT);
-}
-
-// Deprecated - Use vkuFormatTexelBlockSize
-inline uint32_t vkuFormatElementSizeWithAspect(VkFormat format, VkImageAspectFlagBits aspectMask) {
-    // Depth/Stencil aspect have separate helper functions
-    if (aspectMask & VK_IMAGE_ASPECT_STENCIL_BIT) {
-        return vkuFormatStencilSize(format) / 8;
-    } else if (aspectMask & VK_IMAGE_ASPECT_DEPTH_BIT) {
-        return vkuFormatDepthSize(format) / 8;
-    } else if (vkuFormatIsMultiplane(format)) {
-        // Element of entire multiplane format is not useful,
-        // Want to get just a single plane as the lookup format
-        format = vkuFindMultiplaneCompatibleFormat(format, aspectMask);
-    }
-
-    return vkuGetFormatInfo(format).texel_block_size;
-}
-
-inline double vkuFormatTexelSize(VkFormat format) {
-    return vkuFormatTexelSizeWithAspect(format, VK_IMAGE_ASPECT_COLOR_BIT);
-}
-
-inline double vkuFormatTexelSizeWithAspect(VkFormat format, VkImageAspectFlagBits aspectMask) {
-    double texel_size = (double)(vkuFormatElementSizeWithAspect(format, aspectMask));
-    VkExtent3D block_extent = vkuFormatTexelBlockExtent(format);
-    uint32_t texels_per_block = block_extent.width * block_extent.height * block_extent.depth;
-    if (1 < texels_per_block) {
-        texel_size /= (double)(texels_per_block);
-    }
-    return texel_size;
-}
 
 ''')
         # Could loop the components, but faster to just list these
