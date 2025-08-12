@@ -26,7 +26,7 @@ jobs:
           - 'src'
           - 'tests'
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
     - name: Run clang-format
       uses: jidicula/clang-format-action@v4.15.0
       with:
