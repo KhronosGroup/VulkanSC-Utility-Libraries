@@ -5,7 +5,15 @@
 # SPDX-License-Identifier: Apache-2.0
 cmake_minimum_required(VERSION 3.22.1)
 
-project(VUL LANGUAGES CXX)
+# Add support for VULKANSC mode from the command line
+set(VULKANSC ON CACHE BOOL "User defined variable for VULKANSC mode to be passed in through cmake command line e.g. -DVULKANSC=ON")
+
+# The VERSION field is generated with the "--generated-version" flag in the generate_source.py script
+if(VULKANSC)
+    project(VUL VERSION 1.0.19 LANGUAGES CXX) # vulkansc
+else()
+    project(VUL VERSION 1.4.330 LANGUAGES CXX) # vulkan
+endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON) # Remove when min is 3.26, see CMP0143
 
@@ -21,7 +29,7 @@ set(API_TYPE "vulkansc")
 
 add_subdirectory(scripts)
 
-find_package(VulkanHeaders CONFIG)
+find_package(VulkanHeaders ${PROJECT_VERSION} CONFIG)
 
 option(VUL_ENABLE_ASAN "Use address sanitization")
 if (VUL_ENABLE_ASAN)
