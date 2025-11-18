@@ -10,7 +10,7 @@ set(VULKANSC ON CACHE BOOL "User defined variable for VULKANSC mode to be passed
 
 # The VERSION field is generated with the "--generated-version" flag in the generate_source.py script
 if(VULKANSC)
-    project(VUL VERSION 1.0.19 LANGUAGES CXX) # vulkansc
+    project(VUL VERSION 1.0.20 LANGUAGES CXX) # vulkansc
 else()
     project(VUL VERSION 1.4.330 LANGUAGES CXX) # vulkan
 endif()
