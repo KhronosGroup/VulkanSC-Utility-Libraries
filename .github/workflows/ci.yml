@@ -15,24 +15,14 @@ on:
 
 jobs:
   build_and_test:
+    needs: generate_source
     runs-on: ${{matrix.os}}
     strategy:
       matrix:
         config: [Debug, Release]
         os: [ ubuntu-22.04, ubuntu-24.04, windows-latest ]
     steps:
-      - uses: actions/checkout@v6
-      - name: Set up Python 3.8
-        if: matrix.os != 'macos-latest'
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.8'
-      # MacOS machine can run on arm64 and it doesn't support 3.8
-      - name: Set up Python 3.10.11
-        if: matrix.os == 'macos-latest'
-        uses: actions/setup-python@v6
-        with:
-          python-version: '3.10.11'
+      - uses: actions/checkout@v7
       - name: Test CMake Minimum
         if: matrix.os == 'ubuntu-22.04'
         uses: lukka/get-cmake@latest
@@ -44,11 +34,12 @@ jobs:
         working-directory: build/
 
   windows-arm64:
+    needs: generate_source
     runs-on: windows-latest
     env:
       CMAKE_GENERATOR: Ninja
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64_arm64
@@ -59,17 +50,18 @@ jobs:
   reuse:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
     - name: REUSE Compliance Check
       uses: fsfe/reuse-action@v6
 
   generate_source:
     runs-on: ubuntu-24.04
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       - uses: actions/setup-python@v6
         with:
           python-version: '3.10'
+      - run: python3 -m pip install pyparsing
       - name: Generate source
         run: |
           scripts/update_deps.py --dir external --no-build

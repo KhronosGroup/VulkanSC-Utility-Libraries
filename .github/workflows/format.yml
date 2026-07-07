@@ -24,9 +24,10 @@ jobs:
       CLANG_FORMAT_FILES: "*.c *.h *.cpp *.hpp"
 
     steps:
-    - uses: actions/checkout@v6.0.2
+    - uses: actions/checkout@v7
     - name: Check formatting
       run: |
+        clang-format-${CLANG_FORMAT_VERSION} --version
         for f in $(git ls-files -- ${CLANG_FORMAT_FILES}); do
           echo "Checking $f"
           clang-format-${CLANG_FORMAT_VERSION} -i --Werror "$f"

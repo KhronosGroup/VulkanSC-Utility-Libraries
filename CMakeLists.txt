@@ -12,7 +12,7 @@ set(VULKANSC ON CACHE BOOL "User defined variable for VULKANSC mode to be passed
 if(VULKANSC)
     project(VUL VERSION 1.0.21 LANGUAGES CXX) # vulkansc
 else()
-    project(VUL VERSION 1.4.344 LANGUAGES CXX) # vulkan
+    project(VUL VERSION 1.4.356 LANGUAGES CXX) # vulkan
 endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON) # Remove when min is 3.26, see CMP0143
@@ -106,9 +106,14 @@ if (VUL_ENABLE_INSTALL)
         NO_CHECK_REQUIRED_COMPONENTS_MACRO
     )
 
-    install(FILES ${CMAKE_CURRENT_BINARY_DIR}/VulkanUtilityLibrariesConfig.cmake
-        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/VulkanUtilityLibraries
-    )
+    write_basic_package_version_file(${CMAKE_CURRENT_BINARY_DIR}/VulkanUtilityLibrariesConfigVersion.cmake
+        VERSION ${PROJECT_VERSION}
+        COMPATIBILITY AnyNewerVersion)
+
+    install(FILES
+            ${CMAKE_CURRENT_BINARY_DIR}/VulkanUtilityLibrariesConfig.cmake
+            ${CMAKE_CURRENT_BINARY_DIR}/VulkanUtilityLibrariesConfigVersion.cmake
+        DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/VulkanUtilityLibraries)
 endif()
 
 option(VUL_CODEGEN "Enable Vulkan-Utility-Libraries code generation")
