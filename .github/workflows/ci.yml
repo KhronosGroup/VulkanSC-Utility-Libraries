@@ -28,6 +28,10 @@ jobs:
         uses: lukka/get-cmake@latest
         with:
           cmakeVersion: 3.22.1
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+      - run: python3 -m pip install pyparsing
       - run: cmake -S. -B build -D VUL_WERROR=ON -D BUILD_TESTS=ON -D CMAKE_BUILD_TYPE=${{matrix.config}} -D UPDATE_DEPS=ON
       - run: cmake --build build --config ${{matrix.config}} --verbose
       - run: ctest -C ${{matrix.config}} --output-on-failure
@@ -43,6 +47,10 @@ jobs:
       - uses: ilammy/msvc-dev-cmd@v1
         with:
           arch: amd64_arm64
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.10'
+      - run: python3 -m pip install pyparsing
       - run: cmake -S. -B build -D VUL_WERROR=ON -D CMAKE_BUILD_TYPE=Debug -D UPDATE_DEPS=ON
       - run: cmake --build build
       - run: cmake --install build --prefix build/install
