@@ -5,7 +5,7 @@ SPDX-License-Identifier: CC-BY-4.0
 
 # Contributing
 
-Contributions to the Vulkan Utility Libraries repository are welcome.
+Contributions to the Vulkan SC Utility Libraries repository are welcome.
 
 Contributions may be in the form of Issues proposing a change, or Pull
 Requests containing fixes for, or additions to:

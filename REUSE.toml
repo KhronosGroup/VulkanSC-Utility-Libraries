@@ -1,7 +1,7 @@
 version = 1
-SPDX-PackageName = "Vulkan Utility Libraries"
+SPDX-PackageName = "Vulkan SC Utility Libraries"
 SPDX-FileCopyrightText = "2026 The Khronos Group, Inc."
-SPDX-PackageDownloadLocation = "https://github.com/KhronosGroup/Vulkan-Utility-Libraries"
+SPDX-PackageDownloadLocation = "https://github.com/KhronosGroup/VulkanSC-Utility-Libraries"
 
 [[annotations]]
 path = "docs/Configuring-Vulkan-Layers-Whitepaper.pdf"
