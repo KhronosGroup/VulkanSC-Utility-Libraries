@@ -49,6 +49,15 @@ safe_VkAccelerationStructureGeometryKHR::safe_VkAccelerationStructureGeometryKHR
         } else if (geometryType == VK_GEOMETRY_TYPE_AABBS_KHR) {
             geometry.aabbs.pNext = SafePnextCopy(in_struct->geometry.aabbs.pNext, copy_state);
         }
+    } else {
+        // geometry was shallow copied, don't keep (and later free) the application's pNext chain
+        if (geometryType == VK_GEOMETRY_TYPE_INSTANCES_KHR) {
+            geometry.instances.pNext = nullptr;
+        } else if (geometryType == VK_GEOMETRY_TYPE_TRIANGLES_KHR) {
+            geometry.triangles.pNext = nullptr;
+        } else if (geometryType == VK_GEOMETRY_TYPE_AABBS_KHR) {
+            geometry.aabbs.pNext = nullptr;
+        }
     }
     if (is_host && geometryType == VK_GEOMETRY_TYPE_INSTANCES_KHR) {
         if (geometry.instances.arrayOfPointers) {
@@ -232,6 +241,13 @@ void safe_VkAccelerationStructureGeometryKHR::initialize(const VkAccelerationStr
     geometry = in_struct->geometry;
     flags = in_struct->flags;
     pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    if (geometryType == VK_GEOMETRY_TYPE_INSTANCES_KHR) {
+        geometry.instances.pNext = SafePnextCopy(in_struct->geometry.instances.pNext, copy_state);
+    } else if (geometryType == VK_GEOMETRY_TYPE_TRIANGLES_KHR) {
+        geometry.triangles.pNext = SafePnextCopy(in_struct->geometry.triangles.pNext, copy_state);
+    } else if (geometryType == VK_GEOMETRY_TYPE_AABBS_KHR) {
+        geometry.aabbs.pNext = SafePnextCopy(in_struct->geometry.aabbs.pNext, copy_state);
+    }
 
     if (is_host && geometryType == VK_GEOMETRY_TYPE_INSTANCES_KHR) {
         if (geometry.instances.arrayOfPointers) {
@@ -269,6 +285,22 @@ void safe_VkAccelerationStructureGeometryKHR::initialize(const VkAccelerationStr
 
 void safe_VkAccelerationStructureGeometryKHR::initialize(const safe_VkAccelerationStructureGeometryKHR* copy_src,
                                                          [[maybe_unused]] PNextCopyState* copy_state) {
+    if (copy_src == this) return;
+
+    // The host allocation map doesn't overwrite existing entries, so the old one has to be removed first
+    auto iter = GetAccelStructGeomHostAllocMap().pop(this);
+    if (iter != GetAccelStructGeomHostAllocMap().end()) {
+        delete iter->second;
+    }
+    FreePnextChain(pNext);
+    if (geometryType == VK_GEOMETRY_TYPE_INSTANCES_KHR) {
+        FreePnextChain(geometry.instances.pNext);
+    } else if (geometryType == VK_GEOMETRY_TYPE_TRIANGLES_KHR) {
+        FreePnextChain(geometry.triangles.pNext);
+    } else if (geometryType == VK_GEOMETRY_TYPE_AABBS_KHR) {
+        FreePnextChain(geometry.aabbs.pNext);
+    }
+
     sType = copy_src->sType;
     geometryType = copy_src->geometryType;
     geometry = copy_src->geometry;
@@ -341,11 +373,11 @@ void safe_VkRayTracingPipelineCreateInfoCommon::initialize(const VkRayTracingPip
         for (uint32_t i = 0; i < groupCount; ++i) {
             pGroups[i].sType = nvStruct.pGroups[i].sType;
             pGroups[i].pNext = nvStruct.pGroups[i].pNext;
+            nvStruct.pGroups[i].pNext = nullptr;
             pGroups[i].type = nvStruct.pGroups[i].type;
             pGroups[i].generalShader = nvStruct.pGroups[i].generalShader;
             pGroups[i].closestHitShader = nvStruct.pGroups[i].closestHitShader;
             pGroups[i].anyHitShader = nvStruct.pGroups[i].anyHitShader;
-            pGroups[i].intersectionShader = nvStruct.pGroups[i].intersectionShader;
             pGroups[i].intersectionShader = nvStruct.pGroups[i].intersectionShader;
             pGroups[i].pShaderGroupCaptureReplayHandle = nullptr;
         }
@@ -354,6 +386,7 @@ void safe_VkRayTracingPipelineCreateInfoCommon::initialize(const VkRayTracingPip
 
 void safe_VkRayTracingPipelineCreateInfoCommon::initialize(const VkRayTracingPipelineCreateInfoKHR* pCreateInfo) {
     safe_VkRayTracingPipelineCreateInfoKHR::initialize(pCreateInfo);
+    maxRecursionDepth = 0;  // NV specific
 }
 
 safe_VkGraphicsPipelineCreateInfo::safe_VkGraphicsPipelineCreateInfo(const VkGraphicsPipelineCreateInfo* in_struct,
@@ -1056,6 +1089,7 @@ safe_VkAccelerationStructureBuildGeometryInfoKHR::safe_VkAccelerationStructureBu
     pGeometries = nullptr;
     ppGeometries = nullptr;
     scratchData.initialize(&copy_src.scratchData);
+    pNext = SafePnextCopy(copy_src.pNext);
 
     if (geometryCount) {
         if (copy_src.ppGeometries) {
@@ -1096,6 +1130,7 @@ safe_VkAccelerationStructureBuildGeometryInfoKHR& safe_VkAccelerationStructureBu
     pGeometries = nullptr;
     ppGeometries = nullptr;
     scratchData.initialize(&copy_src.scratchData);
+    pNext = SafePnextCopy(copy_src.pNext);
 
     if (geometryCount) {
         if (copy_src.ppGeometries) {
@@ -1180,6 +1215,7 @@ void safe_VkAccelerationStructureBuildGeometryInfoKHR::initialize(const safe_VkA
     pGeometries = nullptr;
     ppGeometries = nullptr;
     scratchData.initialize(&copy_src->scratchData);
+    pNext = SafePnextCopy(copy_src->pNext);
 
     if (geometryCount) {
         if (copy_src->ppGeometries) {
@@ -1194,5 +1230,134 @@ void safe_VkAccelerationStructureBuildGeometryInfoKHR::initialize(const safe_VkA
             }
         }
     }
+}
+
+static const VkSamplerCreateInfo** GetEmbeddedSamplerSlot(VkDescriptorMappingSourceEXT source,
+                                                          VkDescriptorMappingSourceDataEXT& source_data) {
+    switch (source) {
+        case VK_DESCRIPTOR_MAPPING_SOURCE_HEAP_WITH_CONSTANT_OFFSET_EXT:
+            return &source_data.constantOffset.pEmbeddedSampler;
+        case VK_DESCRIPTOR_MAPPING_SOURCE_HEAP_WITH_PUSH_INDEX_EXT:
+            return &source_data.pushIndex.pEmbeddedSampler;
+        case VK_DESCRIPTOR_MAPPING_SOURCE_HEAP_WITH_INDIRECT_INDEX_EXT:
+            return &source_data.indirectIndex.pEmbeddedSampler;
+        case VK_DESCRIPTOR_MAPPING_SOURCE_HEAP_WITH_INDIRECT_INDEX_ARRAY_EXT:
+            return &source_data.indirectIndexArray.pEmbeddedSampler;
+        case VK_DESCRIPTOR_MAPPING_SOURCE_HEAP_WITH_SHADER_RECORD_INDEX_EXT:
+            return &source_data.shaderRecordIndex.pEmbeddedSampler;
+        default:
+            return nullptr;
+    }
+}
+
+// safe_VkSamplerCreateInfo is layout compatible with VkSamplerCreateInfo, so the union can keep holding the plain
+// Vulkan type while we own the memory behind it, same idea as safe_VkSamplerCreateInfo::ptr()
+static void CopyEmbeddedSampler(VkDescriptorMappingSourceEXT source, VkDescriptorMappingSourceDataEXT& dst_data,
+                                const VkDescriptorMappingSourceDataEXT& src_data, PNextCopyState* copy_state) {
+    const VkSamplerCreateInfo** dst_slot = GetEmbeddedSamplerSlot(source, dst_data);
+    if (dst_slot) {
+        const VkSamplerCreateInfo* src_sampler =
+            *GetEmbeddedSamplerSlot(source, const_cast<VkDescriptorMappingSourceDataEXT&>(src_data));
+        *dst_slot = src_sampler ? (new safe_VkSamplerCreateInfo(src_sampler, copy_state))->ptr() : nullptr;
+    }
+}
+
+static void FreeEmbeddedSampler(VkDescriptorMappingSourceEXT source, VkDescriptorMappingSourceDataEXT& source_data) {
+    const VkSamplerCreateInfo** slot = GetEmbeddedSamplerSlot(source, source_data);
+    if (slot && *slot) {
+        delete reinterpret_cast<safe_VkSamplerCreateInfo*>(const_cast<VkSamplerCreateInfo*>(*slot));
+        *slot = nullptr;
+    }
+}
+
+safe_VkDescriptorSetAndBindingMappingEXT::safe_VkDescriptorSetAndBindingMappingEXT(
+    const VkDescriptorSetAndBindingMappingEXT* in_struct, [[maybe_unused]] PNextCopyState* copy_state, bool copy_pnext)
+    : sType(in_struct->sType),
+      descriptorSet(in_struct->descriptorSet),
+      firstBinding(in_struct->firstBinding),
+      bindingCount(in_struct->bindingCount),
+      resourceMask(in_struct->resourceMask),
+      source(in_struct->source),
+      sourceData(in_struct->sourceData) {
+    if (copy_pnext) {
+        pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    }
+    CopyEmbeddedSampler(source, sourceData, in_struct->sourceData, copy_state);
+}
+
+safe_VkDescriptorSetAndBindingMappingEXT::safe_VkDescriptorSetAndBindingMappingEXT()
+    : sType(VK_STRUCTURE_TYPE_DESCRIPTOR_SET_AND_BINDING_MAPPING_EXT),
+      pNext(nullptr),
+      descriptorSet(),
+      firstBinding(),
+      bindingCount(),
+      resourceMask(),
+      source(),
+      sourceData() {}
+
+safe_VkDescriptorSetAndBindingMappingEXT::safe_VkDescriptorSetAndBindingMappingEXT(
+    const safe_VkDescriptorSetAndBindingMappingEXT& copy_src) {
+    sType = copy_src.sType;
+    descriptorSet = copy_src.descriptorSet;
+    firstBinding = copy_src.firstBinding;
+    bindingCount = copy_src.bindingCount;
+    resourceMask = copy_src.resourceMask;
+    source = copy_src.source;
+    sourceData = copy_src.sourceData;
+    pNext = SafePnextCopy(copy_src.pNext);
+    CopyEmbeddedSampler(source, sourceData, copy_src.sourceData, nullptr);
+}
+
+safe_VkDescriptorSetAndBindingMappingEXT& safe_VkDescriptorSetAndBindingMappingEXT::operator=(
+    const safe_VkDescriptorSetAndBindingMappingEXT& copy_src) {
+    if (&copy_src == this) return *this;
+
+    FreeEmbeddedSampler(source, sourceData);
+    FreePnextChain(pNext);
+
+    sType = copy_src.sType;
+    descriptorSet = copy_src.descriptorSet;
+    firstBinding = copy_src.firstBinding;
+    bindingCount = copy_src.bindingCount;
+    resourceMask = copy_src.resourceMask;
+    source = copy_src.source;
+    sourceData = copy_src.sourceData;
+    pNext = SafePnextCopy(copy_src.pNext);
+    CopyEmbeddedSampler(source, sourceData, copy_src.sourceData, nullptr);
+
+    return *this;
+}
+
+safe_VkDescriptorSetAndBindingMappingEXT::~safe_VkDescriptorSetAndBindingMappingEXT() {
+    FreeEmbeddedSampler(source, sourceData);
+    FreePnextChain(pNext);
+}
+
+void safe_VkDescriptorSetAndBindingMappingEXT::initialize(const VkDescriptorSetAndBindingMappingEXT* in_struct,
+                                                          [[maybe_unused]] PNextCopyState* copy_state) {
+    FreeEmbeddedSampler(source, sourceData);
+    FreePnextChain(pNext);
+    sType = in_struct->sType;
+    descriptorSet = in_struct->descriptorSet;
+    firstBinding = in_struct->firstBinding;
+    bindingCount = in_struct->bindingCount;
+    resourceMask = in_struct->resourceMask;
+    source = in_struct->source;
+    sourceData = in_struct->sourceData;
+    pNext = SafePnextCopy(in_struct->pNext, copy_state);
+    CopyEmbeddedSampler(source, sourceData, in_struct->sourceData, copy_state);
+}
+
+void safe_VkDescriptorSetAndBindingMappingEXT::initialize(const safe_VkDescriptorSetAndBindingMappingEXT* copy_src,
+                                                          [[maybe_unused]] PNextCopyState* copy_state) {
+    sType = copy_src->sType;
+    descriptorSet = copy_src->descriptorSet;
+    firstBinding = copy_src->firstBinding;
+    bindingCount = copy_src->bindingCount;
+    resourceMask = copy_src->resourceMask;
+    source = copy_src->source;
+    sourceData = copy_src->sourceData;
+    pNext = SafePnextCopy(copy_src->pNext);
+    CopyEmbeddedSampler(source, sourceData, copy_src->sourceData, copy_state);
 }
 }  // namespace vku

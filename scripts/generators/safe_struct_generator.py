@@ -41,6 +41,8 @@ class SafeStructOutputGenerator(BaseGenerator):
             'VkGraphicsPipelineCreateInfo',
             # Special case because it has custom construct parameters
             'VkPipelineViewportStateCreateInfo',
+            # There is a VkSamplerCreateInfo pointer determined by the sourceData union
+            'VkDescriptorSetAndBindingMappingEXT',
         ]
 
         # For abstract types just want to save the pointer away
@@ -224,14 +226,23 @@ class SafeStructOutputGenerator(BaseGenerator):
 
             if struct.name == 'VkShaderModuleCreateInfo':
                 out.append('''
-                    // Primarily intended for use by GPUAV when replacing shader module code with instrumented code
-                    template<typename Container>
-                    void SetCode(const Container &code) {
-                        delete[] pCode;
-                        codeSize = static_cast<uint32_t>(code.size() * sizeof(uint32_t));
-                        pCode = new uint32_t[code.size()];
-                        std::copy(&code.front(), &code.back() + 1, const_cast<uint32_t*>(pCode));
+                    // Primarily intended for use by GPU-AV when replacing shader module code with instrumented code.
+                    // pCode points at the caller's memory instead of a copy of it, so the caller must keep it alive
+                    // (and not move it) until pCode is replaced or this struct is destroyed.
+                    // Copying this struct still makes an owned deep copy.
+                    // https://github.com/KhronosGroup/Vulkan-ValidationLayers/issues/9242
+                    void SetCodeNoCopy(const uint32_t *code, size_t code_size) {
+                        if (owns_code) {
+                            delete[] reinterpret_cast<const uint8_t *>(pCode);
+                        }
+                        owns_code = false;
+                        codeSize = code_size;
+                        pCode = code;
                     }
+
+                    // Not part of VkShaderModuleCreateInfo, so it goes after the members ptr() reinterprets
+                    // Will be |false| only after SetCodeNoCopy()
+                    bool owns_code{true};
                     ''')
             out.append('};\n')
         out.extend(guard_helper.add_guard(None))
@@ -439,6 +450,7 @@ void FreePnextChain(const void *pNext) {
                     }
                 ''',
                 'VkShaderModuleCreateInfo' : '''
+                    owns_code = true;
                     if (in_struct->pCode) {
                         pCode = reinterpret_cast<uint32_t *>(new uint8_t[codeSize]);
                         memcpy((void *)pCode, (void *)in_struct->pCode, codeSize);
@@ -502,7 +514,7 @@ void FreePnextChain(const void *pNext) {
 
         custom_destruct_txt = {
                 'VkShaderModuleCreateInfo' : '''
-                    if (pCode)
+                    if (owns_code && pCode)
                         delete[] reinterpret_cast<const uint8_t *>(pCode);
                 ''',
             }
@@ -577,7 +589,7 @@ void FreePnextChain(const void *pNext) {
                                 # Create deep copies of strings
                                 if member.length:
                                     copy_strings += f'''
-                                        if (in_struct->{member.length} > 0) {{ 
+                                        if (in_struct->{member.length} > 0) {{
                                             char **tmp_{member.name} = new char *[in_struct->{member.length}];
                                             for (uint32_t i = 0; i < {member.length}; ++i) {{
                                                 tmp_{member.name}[i] = SafeStringCopy(in_struct->{member.name}[i]);
@@ -682,11 +694,22 @@ void FreePnextChain(const void *pNext) {
                                 destruct_txt += f'    delete[] {member.name};\n'
                 elif member.fixedSizeArray or member.length is not None:
                     if member.fixedSizeArray:
-                        construct_txt += f'''
-                            for (uint32_t i = 0; i < {member.fixedSizeArray[0]}; ++i) {{
-                                    {member.name}[i] = in_struct->{member.name}[i];
-                                }}
-                            '''
+                        if len(member.fixedSizeArray) > 1:
+                            depth = len(member.fixedSizeArray)
+                            construct_txt += '\n'
+                            indent = '    '
+                            for dim_index in range(depth):
+                                construct_txt += f'{indent * dim_index}for (uint32_t i{dim_index} = 0; i{dim_index} < {member.fixedSizeArray[dim_index]}; ++i{dim_index}) {{\n'
+                            src_idx = ''.join(f'[i{d}]' for d in range(depth))
+                            construct_txt += f'{indent * depth}{member.name}{src_idx} = in_struct->{member.name}{src_idx};\n'
+                            for dim_index in reversed(range(depth)):
+                                construct_txt += f'{indent * dim_index}}}\n'
+                        else:
+                            construct_txt += f'''
+                                for (uint32_t i = 0; i < {member.fixedSizeArray[0]}; ++i) {{
+                                        {member.name}[i] = in_struct->{member.name}[i];
+                                    }}
+                                '''
                     else:
                         # Init array ptr to NULL
                         default_init_list += f'\n{member.name}(nullptr),'

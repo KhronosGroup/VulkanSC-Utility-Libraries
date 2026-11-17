@@ -12,7 +12,7 @@ set(VULKANSC ON CACHE BOOL "User defined variable for VULKANSC mode to be passed
 if(VULKANSC)
     project(VUL VERSION 1.0.22 LANGUAGES CXX) # vulkansc
 else()
-    project(VUL VERSION 1.4.356 LANGUAGES CXX) # vulkan
+    project(VUL VERSION 1.4.368 LANGUAGES CXX) # vulkan
 endif()
 
 set_property(GLOBAL PROPERTY USE_FOLDERS ON) # Remove when min is 3.26, see CMP0143
@@ -30,6 +30,14 @@ set(API_TYPE "vulkansc")
 add_subdirectory(scripts)
 
 find_package(VulkanHeaders ${PROJECT_VERSION} CONFIG)
+
+# Workaround AppleClang using the wrong headers when there are headers in /usr/local/include
+if (CMAKE_CXX_COMPILER_ID STREQUAL AppleClang AND TARGET Vulkan::Headers AND CMAKE_VERSION VERSION_GREATER_EQUAL 3.25)
+    get_target_property(vulkan_headers_aliased Vulkan::Headers ALIASED_TARGET)
+    if (NOT vulkan_headers_aliased)
+        set_target_properties(Vulkan::Headers PROPERTIES SYSTEM OFF)
+    endif()
+endif()
 
 option(VUL_ENABLE_ASAN "Use address sanitization")
 if (VUL_ENABLE_ASAN)
@@ -83,6 +91,16 @@ if (VUL_ENABLE_INSTALL)
         EXPORT VulkanUtilityLibraries-targets
         DESTINATION ${CMAKE_INSTALL_LIBDIR}/cmake/VulkanUtilityLibraries
         NAMESPACE Vulkan::
+    )
+
+    # Create layer settings manifest validation files
+    install(
+        PROGRAMS "scripts/validate_json_schema.py"
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/vulkan"
+    )
+    install(
+        FILES "docs/layers_settings_schema.json"
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/vulkan"
     )
 
     # Create VulkanUtilityLibrariesConfig.cmake
